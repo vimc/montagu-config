@@ -1,3 +1,8 @@
+vault:
+  addr: https://vault.dide.ic.ac.uk:8200
+  auth:
+    method: github
+
 # Prefix for container names; we'll use {container_prefix}-(container_name)
 container_prefix: montagu
 
