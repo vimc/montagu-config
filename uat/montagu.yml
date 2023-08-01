@@ -78,9 +78,9 @@ proxy:
   port_http: 80
   port_https: 443
   ssl:
-    key: VAULT:secret/vimc/ssl/v2/uat/key
-    certificate: VAULT:secret/vimc/ssl/v2/uat/cert
-    dhparam: VAULT:secret/vimc/ssl/v2/uat/dhparam
+    key: VAULT:secret/vimc/ssl/v2/uat/key:value
+    certificate: VAULT:secret/vimc/ssl/v2/uat/cert:value
+    dhparam: VAULT:secret/vimc/ssl/v2/uat/dhparam:value
 contrib:
   name: montagu-contrib-portal
   tag: master

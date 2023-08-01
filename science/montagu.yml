@@ -47,17 +47,17 @@ db:
     tag: master
   users:
     api:
-      password: VAULT:secret/vimc/database/science/users/api
+      password: VAULT:secret/vimc/database/science/users/api:value
       permissions: all
     import:
-      password: VAULT:secret/vimc/database/science/users/import
+      password: VAULT:secret/vimc/database/science/users/import:value
       permissions: all
     orderly:
-      password: VAULT:secret/vimc/database/science/users/orderly
+      password: VAULT:secret/vimc/database/science/users/orderly:value
       permissions: all
     readonly:
       password: readonly
-      permissions: VAULT:secret/vimc/database/science/users/readonly
+      permissions: VAULT:secret/vimc/database/science/users/readonly:value
   protected_tables:
     - gavi_support_level
     - activity_type
@@ -77,9 +77,9 @@ proxy:
   port_http: 80
   port_https: 443
   ssl:
-    key: VAULT:secret/vimc/ssl/v2/science/key
-    certificate: VAULT:secret/vimc/ssl/v2/science/cert
-    dhparam: VAULT:secret/vimc/ssl/v2/science/dhparam
+    key: VAULT:secret/vimc/ssl/v2/science/key:value
+    certificate: VAULT:secret/vimc/ssl/v2/science/cert:value
+    dhparam: VAULT:secret/vimc/ssl/v2/science/dhparam:value
 contrib:
   name: montagu-contrib-portal
   tag: master
@@ -115,7 +115,7 @@ task_queue:
       url: http://orderly-web-web:8888
     montagu:
       user: montagu-task@imperial.ac.uk
-      password: VAULT:secret/vimc/task-queue-user/science/password
+      password: VAULT:secret/vimc/task-queue-user/science/password:value
     smtp:
       from: montagu-notifications@imperial.ac.uk
 fake_smtp_server:
