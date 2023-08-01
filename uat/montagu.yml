@@ -16,7 +16,7 @@ repo: vimc
 ## The name of the docker network that containers will be attached to.
 ## If you want to proxy Packit to the host, you will need to
 ## arrange a proxy on this network
-network: montagu-network
+network: montagu_default
 
 # Domain where this instance of Montagu will be deployed. E.g. science.montagu.dide.ic.uk
 hostname: uat.montagu.dide.ic.ac.uk
