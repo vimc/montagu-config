@@ -16,6 +16,10 @@
           "name": "monthly"
         }
       ]
+    },
+    {
+      "name": "montagu_db_volume",
+      "type": "volume"
     }
   ],
   "hosts": [
