@@ -1,0 +1,127 @@
+# Prefix for container names; we'll use {container_prefix}-(container_name)
+container_prefix: montagu
+
+## Set this flag to true to prevent use of --volumes in the cli to remove
+## volumes on stop
+protect_data: true
+
+## Docker org for images
+repo: vimc
+
+## The name of the docker network that containers will be attached to.
+## If you want to proxy Packit to the host, you will need to
+## arrange a proxy on this network
+network: montagu-network
+
+# Domain where this instance of Montagu will be deployed. E.g. science.montagu.dide.ic.uk
+hostname: production2.montagu.dide.ic.ac.uk
+
+## Names of the docker volumes to use
+volumes:
+  db: db_volume
+  burden_estimates: burden_estimate_files
+  emails: emails
+  templates: template_volume
+  guidance: guidance_volume
+  static: static_volume
+  static_logs: static_logs
+  mq: mq
+
+api:
+  name: montagu-api
+  tag: master
+  admin:
+    name: montagu-cli
+    tag: master
+db:
+  name: montagu-db
+  tag: master
+  root_user: vimc
+  migrate:
+    name: montagu-migrate
+    tag: master
+  users:
+    api:
+      password: VAULT:secret/vimc/database/production/users/api
+      permissions: all
+    import:
+      password: VAULT:secret/vimc/database/production/users/import
+      permissions: all
+    orderly:
+      password: VAULT:secret/vimc/database/production/users/orderly
+      permissions: all
+    readonly:
+      password: VAULT:secret/vimc/database/production/users/readonly
+      permissions: readonly
+    barman:
+      password: VAULT:secret/vimc/database/production/users/barman
+      option: superuser
+    streaming_barman:
+      password: VAULT:secret/vimc/database/production/users/streaming_barman
+      option: replication
+  protected_tables:
+    - gavi_support_level
+    - activity_type
+    - burden_outcome
+    - gender
+    - responsibility_set_status
+    - impact_outcome
+    - gavi_support_level
+    - support_type
+    - touchstone_status
+    - permission
+    - role
+    - role_permission
+proxy:
+  name: montagu-reverse-proxy
+  tag: vimc-7152
+  port_http: 80
+  port_https: 443
+  ssl:
+    key: VAULT:secret/vimc/ssl/v2/production2/key
+    certificate: VAULT:secret/vimc/ssl/v2/production2/cert
+    dhparam: VAULT:secret/vimc/ssl/v2/production2/dhparam
+contrib:
+  name: montagu-contrib-portal
+  tag: master
+admin:
+  name: montagu-admin-portal
+  tag: master
+static:
+  name: montagu-static
+  tag: master
+mq:
+  repo: docker.io
+  name: redis
+  tag: latest
+  port: 6379
+flower:
+  repo: mher
+  name: flower
+  tag: 0.9.5
+  port: 5555
+task_queue:
+  name: task-queue-worker
+  tag: master
+  tasks:
+    diagnostic_reports:
+      use_additional_recipients: false
+      poll_seconds: 5
+    archive_folder_contents:
+      min_file_age_seconds: 3600
+  servers:
+    youtrack:
+      token: VAULT:secret/vimc/vimc-robot/youtrack-task-queue-token
+    orderlyweb:
+      url: http://orderly-web-web:8888
+    montagu:
+      user: montagu-task@imperial.ac.uk
+      password: VAULT:secret/vimc/task-queue-user/production/password
+    smtp:
+      host: smtp.cc.ic.ac.uk
+      port: 587
+      user: montagu
+      password: VAULT:secret/vimc/email/password
+      from: montagu-notifications@imperial.ac.uk
+
+orderly_web_api_url: https://production2.montagu.dide.ic.ac.uk/reports/api/v2
