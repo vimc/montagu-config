@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import paths
 import yaml
 from copy import copy
 from os import chdir
@@ -84,8 +83,7 @@ def generate():
                 "timeout": timeout
             }]
 
-    file_path = join(paths.container_config, "task_queue",
-                     "real_diagnostic_reports.yml")
+    file_path = "diagnostic-reports.yml"
     with open(file_path, "w") as file:
         file.write(
             '# This file was generated using ./src/generate_real_diagnostic_reports_config.py\n')
