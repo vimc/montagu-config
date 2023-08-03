@@ -47,17 +47,17 @@ db:
     tag: master
   users:
     api:
-      password: VAULT:secret/vimc/database/science/users/api:value
+      password: VAULT:secret/vimc/database/science/users/api:password
       permissions: all
     import:
-      password: VAULT:secret/vimc/database/science/users/import:value
+      password: VAULT:secret/vimc/database/science/users/import:password
       permissions: all
     orderly:
-      password: VAULT:secret/vimc/database/science/users/orderly:value
+      password: VAULT:secret/vimc/database/science/users/orderly:password
       permissions: all
     readonly:
       password: readonly
-      permissions: VAULT:secret/vimc/database/science/users/readonly:value
+      permissions: VAULT:secret/vimc/database/science/users/readonly:password
   protected_tables:
     - gavi_support_level
     - activity_type

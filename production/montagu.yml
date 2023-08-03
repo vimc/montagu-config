@@ -47,22 +47,22 @@ db:
     tag: master
   users:
     api:
-      password: VAULT:secret/vimc/database/production/users/api:value
+      password: VAULT:secret/vimc/database/production/users/api:password
       permissions: all
     import:
-      password: VAULT:secret/vimc/database/production/users/import:value
+      password: VAULT:secret/vimc/database/production/users/import:password
       permissions: all
     orderly:
-      password: VAULT:secret/vimc/database/production/users/orderly:value
+      password: VAULT:secret/vimc/database/production/users/orderly:password
       permissions: all
     readonly:
-      password: VAULT:secret/vimc/database/production/users/readonly:value
+      password: VAULT:secret/vimc/database/production/users/readonly:password
       permissions: readonly
     barman:
-      password: VAULT:secret/vimc/database/production/users/barman:value
+      password: VAULT:secret/vimc/database/production/users/barman:password
       option: superuser
     streaming_barman:
-      password: VAULT:secret/vimc/database/production/users/streaming_barman:value
+      password: VAULT:secret/vimc/database/production/users/streaming_barman:password
       option: replication
   protected_tables:
     - gavi_support_level
