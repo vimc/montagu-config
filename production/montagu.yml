@@ -23,14 +23,14 @@ hostname: production2.montagu.dide.ic.ac.uk
 
 ## Names of the docker volumes to use
 volumes:
-  db: db_volume
-  burden_estimates: burden_estimate_files
-  emails: emails
-  templates: template_volume
-  guidance: guidance_volume
-  static: static_volume
-  static_logs: static_logs
-  mq: mq
+  db: montagu_db_volume
+  burden_estimates: montagu_burden_estimate_files
+  emails: montagu_emails
+  templates: montagu_template_volume
+  guidance: montagu_guidance_volume
+  static: montagu_static_volume
+  static_logs: montagu_static_logs
+  mq: montagu_mq
 
 api:
   name: montagu-api
