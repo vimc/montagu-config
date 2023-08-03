@@ -125,7 +125,7 @@ task_queue:
       url: http://orderly-web-web:8888
     montagu:
       user: montagu-task@imperial.ac.uk
-      password: VAULT:secret/vimc/task-queue-user/production/password:value
+      password: VAULT:secret/vimc/task-queue-user/production:password
     smtp:
       host: smtp.cc.ic.ac.uk
       port: 587
