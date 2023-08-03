@@ -8,10 +8,12 @@ in the relevant instance config directory.
 
 # Deployment
 To deploy UAT/Science/Production, first ensure `montagu-deploy` is installed:
-    ```pip isntall montagu-deploy```
 
+    pip install montagu-deploy
+    
 Then start the required instance, e.g.:
-    ```montagu start uat```
+
+    montagu start uat
 
 See https://github.com/vimc/montagu-deploy for more details on the deploy tool.
 
@@ -21,13 +23,16 @@ with `scripts/copy-vis-tool.sh`.
 
 # Backup and restore
 To run a backup or restore, ensure `privateer` is installed:
-    ```pip install privateer```
+
+    pip install privateer
 
 On production, to schedule backup of orderly (note on production, `montagu_orderly_volume` is the only target, as 
 the db is backed up via barman):
-    `privateer schedule production --to=annex`
+
+    privateer schedule production --to=annex
 
 On UAT or Science, to restore backups:
-     `privateer restore uat --from=annex`
+
+     privateer restore uat --from=annex
 
 See https://github.com/reside-ic/privateer for more details on the backup tool.
