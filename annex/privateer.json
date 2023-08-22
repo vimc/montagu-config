@@ -1,0 +1,15 @@
+{
+    "targets": [
+        {
+            "name": "barman_recover",
+            "type": "volume"
+        }
+    ],
+    "hosts": [
+        {
+            "name": "annex",
+            "path": "starport",
+            "type": "local"
+        }
+    ]
+}
