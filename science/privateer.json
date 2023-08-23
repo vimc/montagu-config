@@ -1,21 +1,25 @@
 {
-  "targets": [
-    {
-      "name": "montagu_orderly_volume",
-      "type": "volume"
-    },
-    {
-      "name": "montagu_db_volume",
-      "type": "volume"
-    }
-  ],
-  "hosts": [
-    {
-      "name": "annex",
-      "hostname": "annex.montagu.dide.ic.ac.uk",
-      "user": "montagu",
-      "path": "starport",
-      "type": "remote"
-    }
-  ]
+    "targets": [
+        {
+            "name": "montagu_orderly_volume",
+            "type": "volume"
+        },
+        {
+            "name": "montagu_db_volume",
+            "type": "volume"
+        },
+        {
+            "name": "barman_recover",
+            "type": "volume"
+        }
+    ],
+    "hosts": [
+        {
+            "name": "annex",
+            "hostname": "annex.montagu.dide.ic.ac.uk",
+            "user": "montagu",
+            "path": "starport",
+            "type": "remote"
+        }
+    ]
 }
