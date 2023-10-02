@@ -1,0 +1,34 @@
+{
+    "targets": [
+        {
+            "name": "montagu_orderly_volume",
+            "type": "volume",
+            "schedules": [
+                {
+                    "name": "daily",
+                    "retention_days": 7
+                },
+                {
+                    "name": "weekly",
+                    "retention_days": 31
+                },
+                {
+                    "name": "monthly"
+                }
+            ]
+        },
+        {
+            "name": "barman_recover",
+            "type": "volume"
+        }
+    ],
+    "hosts": [
+        {
+            "name": "annex2",
+            "hostname": "annex2.montagu.dide.ic.ac.uk",
+            "user": "vagrant",
+            "path": "starport",
+            "type": "remote"
+        }
+    ]
+}
