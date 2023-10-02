@@ -3,7 +3,13 @@
         {
             "name": "barman_recover",
             "type": "volume"
-        }
+        },
+        "schedules": [
+            {
+                "name": "daily",
+                "retention_days": 2
+            }
+        ]
     ],
     "hosts": [
         {
