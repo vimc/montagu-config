@@ -20,7 +20,7 @@
         {
             "name": "annex2",
             "hostname": "annex2.montagu.dide.ic.ac.uk",
-            "user": "montagu",
+            "user": "vagrant",
             "path": "starport",
             "type": "remote"
         }
