@@ -5,10 +5,6 @@
             "type": "volume"
         },
         {
-            "name": "montagu_db_volume",
-            "type": "volume"
-        },
-        {
             "name": "barman_recover",
             "type": "volume"
         }
