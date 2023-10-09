@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -eu
+export VAULT_ADDR=https://vault.dide.ic.ac.uk:8200
 export VAULT_TOKEN=$(vault login -method=github -token-only)
 docker volume create privateer_keys > /dev/null
 docker run --env=VAULT_TOKEN --env=VAULT_ADDR -it \
