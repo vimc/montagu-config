@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -eu
+export VAULT_TOKEN=$(vault login -method=github -token-only)
+
+rm -rf ssh_keys
+mkdir -p ssh_keys
+ssh-keygen -q -t rsa -f ssh_keys/uat -N ""
+ssh-keygen -q -t rsa -f ssh_keys/science -N ""
+ssh-keygen -q -t rsa -f ssh_keys/annex -N ""
+ssh-keygen -q -t rsa -f ssh_keys/annex2 -N ""
+ssh-keygen -q -t rsa -f ssh_keys/production2 -N ""
+
+VPREFIX=/secret/vimc/privateer/keys
+
+vault write "$VPREFIX/uat" \
+      host=uat.montagu.dide.ic.ac.uk \
+      public=@ssh_keys/uat.pub \
+      private=@ssh_keys/uat
+vault write "$VPREFIX/science" \
+      host=science.montagu.dide.ic.ac.uk \
+      public=@ssh_keys/science.pub \
+      private=@ssh_keys/science
+vault write "$VPREFIX/annex" \
+      host=annex.montagu.dide.ic.ac.uk \
+      public=@ssh_keys/annex.pub \
+      private=@ssh_keys/annex
+vault write "$VPREFIX/annex2" \
+      host=annex2.montagu.dide.ic.ac.uk \
+      public=@ssh_keys/annex2.pub \
+      private=@ssh_keys/annex2
+vault write "$VPREFIX/production2" \
+      host=production2.montagu.dide.ic.ac.uk \
+      public=@ssh_keys/production2.pub \
+      private=@ssh_keys/production2
+
+rm -rf ssh_keys

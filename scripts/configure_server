@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -eu
+export VAULT_TOKEN=$(vault login -method=github -token-only)
+docker volume create privateer_keys > /dev/null
+docker run --env=VAULT_TOKEN --env=VAULT_ADDR -it \
+       --entrypoint=sh \
+       -v privateer_keys:/keys \
+       "hashicorp/vault" \
+       -c "rm -f /keys/authorized_keys /keys/id_rsa /keys/id_rsa.pub &&
+vault read -field=private /secret/vimc/privateer/keys/annex2 > /keys/id_rsa &&
+vault read -field=public /secret/vimc/privateer/keys/annex2 > /keys/id_rsa.pub &&
+vault read -field=public /secret/vimc/privateer/keys/uat >> /keys/authorized_keys &&
+vault read -field=public /secret/vimc/privateer/keys/science >> /keys/authorized_keys &&
+vault read -field=public /secret/vimc/privateer/keys/production2 >> /keys/authorized_keys"
