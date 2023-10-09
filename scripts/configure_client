@@ -3,6 +3,10 @@ set -eu
 export VAULT_TOKEN=$(vault login -method=github -token-only)
 NAME=$1
 
+# We will replace this with a simple container that has has python and
+# hvac installed I think, which pulls keys and writes them all
+# out. For now, this will by easy to iterate with though.
+
 docker volume create privateer_keys > /dev/null
 docker run --env=VAULT_TOKEN --env=VAULT_ADDR -it \
        --entrypoint=sh \
