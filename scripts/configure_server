@@ -12,4 +12,5 @@ vault read -field=private /secret/vimc/privateer/keys/annex2 > /keys/id_rsa &&
 vault read -field=public /secret/vimc/privateer/keys/annex2 > /keys/id_rsa.pub &&
 vault read -field=public /secret/vimc/privateer/keys/uat >> /keys/authorized_keys &&
 vault read -field=public /secret/vimc/privateer/keys/science >> /keys/authorized_keys &&
-vault read -field=public /secret/vimc/privateer/keys/production2 >> /keys/authorized_keys"
+vault read -field=public /secret/vimc/privateer/keys/production2 >> /keys/authorized_keys &&
+chmod 600 /keys/id_rsa"

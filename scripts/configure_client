@@ -17,4 +17,5 @@ docker run --env=VAULT_TOKEN --env=VAULT_ADDR -it \
 vault read -field=private /secret/vimc/privateer/keys/$NAME > /keys/id_rsa &&
 vault read -field=public /secret/vimc/privateer/keys/$NAME > /keys/id_rsa.pub &&
 echo annex2.montagu.dide.ic.ac.uk $(vault read -field=public /secret/vimc/privateer/keys/annex) > /keys/known_hosts
-echo 146.179.177.21 $(vault read -field=public /secret/vimc/privateer/keys/annex) > /keys/known_hosts"
+echo 146.179.177.21 $(vault read -field=public /secret/vimc/privateer/keys/annex) > /keys/known_hosts &&
+chmod 600 /keys/id_rsa"
