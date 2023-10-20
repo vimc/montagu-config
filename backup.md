@@ -47,3 +47,12 @@ privateer2 check --connection
 screen
 privateer2 backup montagu_orderly_volume --server=annex2
 ```
+
+## To uat
+
+```
+privateer2 configure uat
+privateer2 restore montagu_orderly_volume --server=annex2 --source=production
+privateer2 restore barman_recover --server=annex2
+montagu start uat
+```
