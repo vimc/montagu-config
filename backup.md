@@ -1,0 +1,49 @@
+# Backup setup notes
+
+## From my workstation
+
+```
+privateer2 keygen --all
+```
+
+then
+
+```
+vault list /secret/vimc/privateer
+```
+
+```
+Keys
+----
+annex
+annex2
+production
+production2
+science
+uat
+```
+
+## From annex2
+
+```
+privateer2 configure annex2
+privateer2 server start
+```
+
+## From production2
+
+```
+privateer2 configure production2
+privateer2 check --connection
+screen
+privateer2 backup montagu_orderly_volume --server=annex2
+```
+
+## From production
+
+```
+privateer2 configure production
+privateer2 check --connection
+screen
+privateer2 backup montagu_orderly_volume --server=annex2
+```
