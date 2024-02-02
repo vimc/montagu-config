@@ -56,8 +56,8 @@ db:
       password: VAULT:secret/vimc/database/science/users/orderly:password
       permissions: all
     readonly:
-      password: readonly
-      permissions: VAULT:secret/vimc/database/science/users/readonly:password
+      password: VAULT:secret/vimc/database/science/users/readonly:password
+      permissions: readonly
   protected_tables:
     - gavi_support_level
     - activity_type
