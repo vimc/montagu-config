@@ -58,6 +58,9 @@
             "name": "montagu_orderly_volume"
         },
         {
+            "name": "montagu_db_volume"
+        },
+        {
             "name": "barman_recover",
             "local": true
         }
