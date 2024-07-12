@@ -19,7 +19,7 @@ repo: vimc
 network: montagu_default
 
 # Domain where this instance of Montagu will be deployed. E.g. science.montagu.dide.ic.uk
-hostname: production2.montagu.dide.ic.ac.uk
+hostname: montagu.vaccineimpact.org
 
 ## Names of the docker volumes to use
 volumes:
@@ -87,9 +87,9 @@ proxy:
     name: nginx-prometheus-exporter
     tag: 0.10.0
   ssl:
-    key: VAULT:secret/vimc/ssl/v2/production2/key:value
-    certificate: VAULT:secret/vimc/ssl/v2/production2/cert:value
-    dhparam: VAULT:secret/vimc/ssl/v2/production2/dhparam:value
+    key: VAULT:secret/vimc/ssl/v2/production/key:value
+    certificate: VAULT:secret/vimc/ssl/v2/production/cert:value
+    dhparam: VAULT:secret/vimc/ssl/v2/production/dhparam:value
 contrib:
   name: montagu-contrib-portal
   tag: master
@@ -133,4 +133,4 @@ task_queue:
       password: VAULT:secret/vimc/email/password:value
       from: montagu-notifications@imperial.ac.uk
 
-orderly_web_api_url: https://production2.montagu.dide.ic.ac.uk/reports/api/v2
+orderly_web_api_url: https://montagu.vaccineimpact.org/reports/api/v2
