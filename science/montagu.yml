@@ -56,8 +56,8 @@ db:
       password: VAULT:secret/vimc/database/science/users/orderly:password
       permissions: all
     readonly:
-      password: readonly
-      permissions: VAULT:secret/vimc/database/science/users/readonly:password
+      password: VAULT:secret/vimc/database/science/users/readonly:password
+      permissions: readonly
   protected_tables:
     - gavi_support_level
     - activity_type
@@ -119,7 +119,7 @@ task_queue:
       url: http://orderly-web-web:8888
     montagu:
       user: montagu-task@imperial.ac.uk
-      password: VAULT:secret/vimc/task-queue-user/science/password:value
+      password: VAULT:secret/vimc/task-queue-user/science:password
     smtp:
       from: montagu-notifications@imperial.ac.uk
 fake_smtp_server:
