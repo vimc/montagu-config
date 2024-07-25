@@ -39,8 +39,8 @@ api:
     name: montagu-cli
     tag: master
   email:
-    password: VAULT:secret/vimc/email/password
-    flow_url: VAULT:secret/vimc/flow/montagu_webhook
+    password: VAULT:secret/vimc/email/password:value
+    flow_url: VAULT:secret/vimc/flow/montagu-webhook:value
 db:
   name: montagu-db
   tag: master
