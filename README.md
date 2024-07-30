@@ -22,7 +22,7 @@ See https://github.com/vimc/montagu-deploy for more details on the deploy tool.
 # Post deployment
 
 After deploying both Montagu AND OrderlyWeb, you may need to copy the data viz tools into place. This can be done
-with `scripts/copy-vis-tool.sh`.
+with `./scripts/copy-vis-tool.sh`.
 
 # Backup and restore
 
