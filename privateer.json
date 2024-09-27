@@ -34,7 +34,7 @@
         },
         {
             "name": "production2",
-            "backup": ["montagu_orderly_volume"],
+            "backup": ["montagu_orderly_volume", "montagu_db_volume"],
             "schedule": {
                 "port": 8080,
                 "jobs": [
