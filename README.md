@@ -15,7 +15,9 @@ To deploy UAT/Science/Production, first ensure `montagu-deploy` is installed:
 
 Then start the required instance, e.g.:
 
-    montagu start uat
+    montagu start <path>
+
+Where `<path>` is the path to one of the configuration directories in this repository (ie. `uat`, `science` or `production`).
 
 See https://github.com/vimc/montagu-deploy for more details on the deploy tool.
 
@@ -23,6 +25,16 @@ See https://github.com/vimc/montagu-deploy for more details on the deploy tool.
 
 After deploying both Montagu AND OrderlyWeb, you may need to copy the data viz tools into place. This can be done
 with `./scripts/copy-vis-tool.sh`.
+
+# Automatic certificate renewal
+
+If automatic certificates are enabled, you should run the `renew-certificate` the first time you deploy montagu to get the initial certificate.
+
+    montagu renew-certificate <path>
+
+This command will need to be run periodically to ensure the certificate stays up-to-date. This is done by installing a systemd timer, using the provided `install-timer.sh` script.
+
+    ./scripts/install-timer.sh <path>
 
 # Backup and restore
 
