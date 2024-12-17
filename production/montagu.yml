@@ -31,6 +31,9 @@ volumes:
   static: montagu_static_volume
   static_logs: montagu_static_logs
   mq: montagu_mq
+  acme-challenge: montagu_acme_challenge
+  certificates: montagu_certificates
+  certbot: montagu_certbot
 
 api:
   name: montagu-api
@@ -82,17 +85,17 @@ db:
     - role_permission
 proxy:
   name: montagu-reverse-proxy
-  tag: vimc-7152
+  tag: master
   port_http: 80
   port_https: 443
   metrics:
     repo: nginx
     name: nginx-prometheus-exporter
-    tag: 0.10.0
-  ssl:
-    key: VAULT:secret/vimc/ssl/v2/production/key:value
-    certificate: VAULT:secret/vimc/ssl/v2/production/cert:value
-    dhparam: VAULT:secret/vimc/ssl/v2/production/dhparam:value
+    tag: 1.3.0
+  acme:
+    email: reside@imperial.ac.uk
+    additional_domains:
+      - production2.montagu.dide.ic.ac.uk
 contrib:
   name: montagu-contrib-portal
   tag: master

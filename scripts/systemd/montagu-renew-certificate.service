@@ -1,0 +1,4 @@
+[Service]
+Type=oneshot
+User=$USER
+ExecStart=$MONTAGU renew-certificate $CONFIG
