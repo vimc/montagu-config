@@ -1,0 +1,67 @@
+# For now, we need to use this prefix because a few things depend on
+# it.  We will possibly move to something else in future, because this
+# will be a bit weird.
+container_prefix: orderly-web
+
+protect_data: true
+
+repo: mrcide
+
+network: montagu_default
+
+volumes:
+  outpack: outpack_volume
+  proxy_logs: packit_proxy_logs
+  packit_db: packit_db
+  orderly_library: orderly_library
+  orderly_logs: orderly_logs
+
+outpack:
+  server:
+    name: outpack_server
+    tag: main
+
+packit:
+  api:
+    name: packit-api
+    tag: main
+  app:
+    name: packit
+    tag: main
+  db:
+    name: packit-db
+    tag: main
+    user: packituser
+    password: changeme
+  auth:
+    enabled: true
+    auth_method: preauth
+
+brand:
+  # Paths are interpreted relative to this configuration file, so
+  # we'll have to duplicate everything at the moment.  We might want
+  # to make that relative to somewhere else, but no other choices are
+  # really very obvious.
+  favicon_path: vimc-small.png
+  logo_alt_text: VIMC logo
+  logo_link: https://montagu.vaccineimpact.org/
+  logo_path: img/logo-landscape.png
+  name: Reporting Portal
+  css:
+    light:
+      accent: "#0077C2" # mid blue
+      accent_foreground: "#ffffff" # white
+
+orderly-runner:
+  image:
+    name: orderly.runner
+    tag: main
+  git:
+    url: git@github.com:vimc/montagu-reports.git
+    ssh: VAULT:secret/vimc/reports/deploy:private
+  workers: 1
+
+vault:
+  addr: https://vault.dide.ic.ac.uk:8200
+  auth:
+    method: github
