@@ -46,7 +46,7 @@ brand:
   # we'll have to duplicate everything at the moment.  We might want
   # to make that relative to somewhere else, but no other choices are
   # really very obvious.
-  favicon_path: img/vimc-small.png
+  favicon_path: img/logo-small.png
   logo_alt_text: VIMC logo
   logo_link: https://montagu.vaccineimpact.org/
   logo_path: img/logo-landscape.png
