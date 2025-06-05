@@ -40,6 +40,9 @@ packit:
     jwt:
       secret: "0b4g4f8z4mdsrhoxfde2mam8f00vmt0f"
     expiry_days: 1
+  # Location that is allowed to make the request
+  # https://dietcode.io/p/cors/
+  cors_allowed_origins: "https://uat.montagu.dide.ic.ac.uk"
 
 brand:
   # Paths are interpreted relative to this configuration file, so
