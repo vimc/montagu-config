@@ -61,6 +61,15 @@ The orderly-web-deploy tool is not currently updated on PyPI, so install that fr
 
 We've removed the old orderly-to-packit migration, so this needs to be run manually.
 
+```
+docker pull mrcide/outpack.orderly:main
+docker run -d --name outpack-migrate \
+    -v montagu_orderly_volume:/orderly:ro \
+    -v outpack_volume:/outpack \
+    mrcide/outpack.orderly:main \
+    /orderly /outpack --minutes=5
+```
+
 # Deployment
 
 On a first deployment (after bringing down all containers), the order matters.  You need to bring up `packit` (and `OrderlyWeb` if you are using that) *before* `montagu`, otherwise the proxy will fail to start.
