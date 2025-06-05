@@ -49,9 +49,17 @@ pip3 install --user packit_deploy-0.0.11-py3-none-any.whl
 
 Again, watch out to see if `pip` actually installs this, and be particularly careful if you have not changed the version number.
 
+## Bootstrapping packit users
+
+On first deployment you won't have an admin user in packit, and the current way is a bit of a fiddle
+
 ## OrderlyWeb
 
 The orderly-web-deploy tool is not currently updated on PyPI, so install that from source.
+
+# Migration of old packets
+
+We've removed the old orderly-to-packit migration, so this needs to be run manually.
 
 # Deployment
 
@@ -69,6 +77,12 @@ montagu start --pull uat
 Replace `uat` with `science` or `production` on those machines.
 
 See https://github.com/vimc/montagu-deploy for more details on the deploy tool.
+
+On the first deployment for a machine you will not have an admin user, which is problematic.  You can promote someone to one by logging in, then running
+
+```
+docker exec orderly-web-packit-db promote-user --email u.name@imperial.ac.uk
+```
 
 # Post deployment
 
