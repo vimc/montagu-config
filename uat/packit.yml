@@ -36,6 +36,9 @@ packit:
   auth:
     enabled: true
     auth_method: preauth
+    # We'll get this from the vault on production
+    jwt: 0b4g4f8z4mdsrhoxfde2mam8f00vmt0f
+    expiry_days: 1
 
 brand:
   # Paths are interpreted relative to this configuration file, so
