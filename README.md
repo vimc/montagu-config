@@ -61,9 +61,29 @@ The orderly-web-deploy tool is not currently updated on PyPI, so install that fr
 
 We've removed the old orderly-to-packit migration, so this needs to be run manually.
 
+The current initialisation of outpack, via rust, is incomplete and a `local` location is required, which is a small fix in https://github.com/mrc-ide/outpack_server/blob/main/src/init.rs#L7 - in the meantime edit the file `/outpack/.outpack/config.json` in the outpack volume to contain
+
+```
+{"core":{"hash_algorithm":"sha256","path_archive":null,"use_file_store":true,"require_complete_tree":true},"location":[{"name":"local","type":"local","args":{}}]}
+```
+
+with the bit in the `location` key being important.
+
+Try a migration with:
+
 ```
 docker pull mrcide/outpack.orderly:main
-docker run -d --name outpack-migrate \
+docker run -it --rm --name outpack-migrate \
+    -v montagu_orderly_volume:/orderly:ro \
+    -v outpack_volume:/outpack \
+    mrcide/outpack.orderly:main \
+    /orderly /outpack --once
+```
+
+Or schedule recurring migrations with
+
+```
+docker run --rm -d --name outpack-migrate \
     -v montagu_orderly_volume:/orderly:ro \
     -v outpack_volume:/outpack \
     mrcide/outpack.orderly:main \
