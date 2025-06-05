@@ -55,19 +55,15 @@ The orderly-web-deploy tool is not currently updated on PyPI, so install that fr
 
 # Deployment
 
+On a first deployment (after bringing down all containers), the order matters.  You need to bring up `packit` (and `OrderlyWeb` if you are using that) *before* `montagu`, otherwise the proxy will fail to start.
+
+If you get a gateway error causing packit login to fail, redeploy montagu (or have a go just restarting the proxy container).
+
 Assuming `uat` here:
 
-
-Start montagu
-
 ```
-montagu start uat
-```
-
-Then packit
-
-```
-packit start uat
+packit start --pull uat
+montagu start --pull uat
 ```
 
 Replace `uat` with `science` or `production` on those machines.
