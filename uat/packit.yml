@@ -26,7 +26,7 @@ packit:
     name: packit-api
     tag: main
   app:
-    name: packit
+    name: montagu-packit
     tag: main
   db:
     name: packit-db
