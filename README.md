@@ -96,7 +96,7 @@ docker run --rm -d --name outpack-migrate \
 
 On a first deployment (after bringing down all containers), the order matters.  You need to bring up `packit` (and `OrderlyWeb` if you are using that) *before* `montagu`, otherwise the proxy will fail to start.
 
-If you get a gateway error causing packit login to fail, redeploy montagu (or have a go just restarting the proxy container).
+If you get a gateway error causing packit login to fail, redeploy montagu (or have a go just restarting the proxy container). This can happen if you redeploy packit without subsequently restarting montagu.
 
 Assuming `uat` here:
 
