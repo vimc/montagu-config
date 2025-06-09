@@ -109,7 +109,7 @@ Replace `uat` with `science` or `production` on those machines.
 
 See https://github.com/vimc/montagu-deploy for more details on the deploy tool.
 
-On the first deployment for a machine you will not have an admin user, which is problematic.  You can promote someone to one by logging in, then running
+On the first deployment for a machine you will not have an admin user in Packit, which is problematic.  You can promote a user to admin in Packit after they've logged in to Montagu by running
 
 ```
 docker exec orderly-web-packit-db promote-user --email u.name@imperial.ac.uk
