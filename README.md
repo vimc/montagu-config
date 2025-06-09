@@ -125,8 +125,8 @@ with `./scripts/copy-vis-tool.sh`.
 Redeploy packit (e.g., after making a change); stop and start the containers using `packit-deploy`.  You probably want the `--kill` argument to swiftly but rudely bring down containers and the `--pull` argument to make sure that you get the most recent copy of containers to deploy.
 
 ```
-packit-deploy stop --kill uat
-packit-deploy start --pull uat
+packit stop --kill uat
+packit start --pull uat
 ```
 
 Be sure to get the machine name correct (`uat`, `science` or `production`).
