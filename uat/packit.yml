@@ -51,8 +51,8 @@ brand:
   # really very obvious.
   favicon_path: img/logo-small.png
   logo_alt_text: VIMC logo
-  logo_link: https://montagu.vaccineimpact.org/
-  logo_path: img/logo-landscape.png
+  logo_link: https://uat.montagu.dide.ic.ac.uk/
+  logo_path: img/logo-green.png
   name: Reporting Portal
   css:
     light:
