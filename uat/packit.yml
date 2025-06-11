@@ -59,14 +59,23 @@ brand:
       accent: "#0077C2" # mid blue
       accent_foreground: "#ffffff" # white
 
-# orderly-runner:
-#   image:
-#     name: orderly.runner
-#     tag: main
-#   git:
-#     url: git@github.com:vimc/montagu-reports.git
-#     ssh: VAULT:secret/vimc/reports/deploy:private
-#   workers: 1
+orderly-runner:
+  image:
+    name: orderly.runner
+    tag: main
+  git:
+    url: git@github.com:vimc/montagu-reports.git
+    ssh: VAULT:secret/vimc/reports/deploy:private
+  workers: 1
+  env:
+    MONTAGU_DB_DEFAULT_INSTANCE: uat
+    MONTAGU_DB_PASSWORD_UAT: readonly
+    MONTAGU_DB_PASSWORD_SCIENCE: VAULT:secret/vimc/database/science/users/readonly:password
+    MONTAGU_DB_PASSWORD_PRODUCTION: VAULT:secret/vimc/database/production/users/readonly:password
+    ORDERLY_API_SERVER_IDENTITY: uat
+    ANNEX_HOST: annex.montagu.dide.ic.ac.uk
+    ANNEX_PORT: 15432
+    ANNEX_PASSWORD: VAULT:secret/vimc/annex/users/readonly:password
 
 vault:
   addr: https://vault.dide.ic.ac.uk:8200
