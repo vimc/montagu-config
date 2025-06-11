@@ -53,10 +53,6 @@ pip3 install --user packit_deploy-0.0.11-py3-none-any.whl
 
 Again, watch out to see if `pip` actually installs this, and be particularly careful if you have not changed the version number.
 
-## Bootstrapping packit users
-
-On first deployment you won't have an admin user in packit, and the current way is a bit of a fiddle
-
 ## OrderlyWeb
 
 The orderly-web-deploy tool is not currently updated on PyPI, so install that from source.
@@ -64,14 +60,6 @@ The orderly-web-deploy tool is not currently updated on PyPI, so install that fr
 # Migration of old packets
 
 We've removed the old orderly-to-packit migration, so this needs to be run manually.
-
-The current initialisation of outpack, via rust, is incomplete and a `local` location is required, which is a small fix in https://github.com/mrc-ide/outpack_server/blob/main/src/init.rs#L7 - in the meantime edit the file `/outpack/.outpack/config.json` in the outpack volume to contain
-
-```
-{"core":{"hash_algorithm":"sha256","path_archive":null,"use_file_store":true,"require_complete_tree":true},"location":[{"name":"local","type":"local","args":{}}]}
-```
-
-with the bit in the `location` key being important.
 
 Try a migration with:
 
