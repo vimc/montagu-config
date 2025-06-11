@@ -62,7 +62,7 @@ brand:
 orderly-runner:
   image:
     name: orderly.runner
-    tag: mrc-6526
+    tag: main
   git:
     url: git@github.com:vimc/montagu-reports.git
     ssh: VAULT:secret/vimc/reports/deploy:private
