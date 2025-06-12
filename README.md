@@ -99,13 +99,29 @@ Replace `uat` with `science` or `production` on those machines.
 
 See https://github.com/vimc/montagu-deploy for more details on the deploy tool.
 
+# First-time deployment
+
+The first time that montagu is deployed on a machine (or after removing data volumes) additional work is required:
+
+## Create an initial admin user
+
 On the first deployment for a machine you will not have an admin user in Packit, which is problematic.  You can promote a user to admin in Packit after they've logged in to Montagu by running
 
 ```
 docker exec orderly-web-packit-db promote-user --email u.name@imperial.ac.uk
 ```
 
-# Post deployment
+## Update the packages for the runner
+
+The runner library volume (`orderly_library`) will need required packages installed.  Do this by running
+
+```
+docker run --rm -v orderly_library:/library -v $PWD/packages:/packages:ro -w /packages mrcide/orderly.runner:main ./install_packages
+```
+
+See [`packages/README.md`](packages/README.md) for more information.
+
+## Update the data vis tool
 
 After deploying both Montagu AND OrderlyWeb, you may need to copy the data viz tools into place. This can be done
 with `./scripts/copy-vis-tool.sh`.
