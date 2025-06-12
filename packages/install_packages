@@ -14,7 +14,7 @@ install <- function(path) {
     remotes::install_github(pkgs$github[i], upgrade = FALSE)
   }
 
-  expected <- union(pkgs$repos, basename(pkgs$github))
+  expected <- union(pkgs$packages, basename(pkgs$github))
   msg <- setdiff(expected, .packages(TRUE))
   if (length(msg)) {
     stop(sprintf("Some packages did not install: %s",
