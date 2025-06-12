@@ -17,4 +17,4 @@ install <- function(path) {
   message("DONE")
 }
 
-install("/library")
+install("packages.yml")
