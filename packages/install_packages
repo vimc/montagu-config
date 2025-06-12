@@ -1,0 +1,12 @@
+#!/usr/bin/env Rscript
+install <- function(path) {
+  pkgs <- yaml::read_yaml(path)
+  options(repos = c(pkgs$repos, getOption("repos")))
+  msg <- setdiff(pkgs$packages, .packages(TRUE))
+  install.packages(msg)
+  if (length(pkgs$github) > 0) {
+    remotes::install_github(pkgs$github, upgrade = FALSE)
+  }
+}
+
+install("/library")
