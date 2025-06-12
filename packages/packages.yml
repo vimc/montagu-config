@@ -258,8 +258,6 @@ packages:
   - reprex
   - reshape2
   - rgbif
-  - rgdal
-  - rgeos
   - rjson
   - rlang
   - rmarkdown
