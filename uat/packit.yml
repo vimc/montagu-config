@@ -22,6 +22,7 @@ outpack:
     tag: main
 
 packit:
+  base_url: https://uat.montagu.dide.ic.ac.uk/packit
   api:
     name: packit-api
     tag: main
