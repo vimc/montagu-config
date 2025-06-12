@@ -4,8 +4,6 @@ repos:
   - https://vimc.r-universe.dev
 
 packages:
-  - BiocGenerics
-  - ComplexHeatmap
   - CoordinateCleaner
   - DBI
   - DEoptimR
@@ -13,7 +11,6 @@ packages:
   - FinCal
   - GetoptLong
   - GlobalOptions
-  - IRanges
   - KernSmooth
   - MASS
   - Matrix
@@ -31,7 +28,6 @@ packages:
   - RcppEigen
   - RcppRoll
   - Rttf2pt1
-  - S4Vectors
   - SparseM
   - V8
   - XML
@@ -53,7 +49,6 @@ packages:
   - bslib
   - cachem
   - callr
-  - captioner
   - car
   - carData
   - cellranger
@@ -290,7 +285,6 @@ packages:
   - spatial
   - spelling
   - splines
-  - stackoverflow
   - stars
   - stats
   - stats4
