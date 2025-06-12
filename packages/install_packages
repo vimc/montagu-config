@@ -2,11 +2,19 @@
 install <- function(path) {
   pkgs <- yaml::read_yaml(path)
   options(repos = c(pkgs$repos, getOption("repos")))
-  msg <- setdiff(pkgs$packages, .packages(TRUE))
-  install.packages(msg)
-  if (length(pkgs$github) > 0) {
-    remotes::install_github(pkgs$github, upgrade = FALSE)
+  installed <- .packages(TRUE)
+
+  msg <- setdiff(pkgs$packages, installed)
+  if (length(msg)) {
+    install.packages(msg)
   }
+
+  i <- basename(pkgs$github) %in% installed
+  if (any(i)) {
+    remotes::install_github(pkgs$github[i], upgrade = FALSE)
+  }
+
+  message("DONE")
 }
 
 install("/library")
