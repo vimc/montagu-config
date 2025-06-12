@@ -2,6 +2,7 @@
 
 repos:
   - https://vimc.r-universe.dev
+  - https://mrc-ide.r-universe.dev
 
 packages:
   - CoordinateCleaner
@@ -206,9 +207,7 @@ packages:
   - officer
   - openssl
   - openxlsx
-  - orderly
-  - orderly.server
-  - orderlyweb
+  - orderly.db
   - pander
   - parallel
   - patchwork
