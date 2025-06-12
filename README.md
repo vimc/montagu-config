@@ -53,10 +53,6 @@ pip3 install --user packit_deploy-0.0.11-py3-none-any.whl
 
 Again, watch out to see if `pip` actually installs this, and be particularly careful if you have not changed the version number.
 
-## Bootstrapping packit users
-
-On first deployment you won't have an admin user in packit, and the current way is a bit of a fiddle
-
 ## OrderlyWeb
 
 The orderly-web-deploy tool is not currently updated on PyPI, so install that from source.
@@ -64,14 +60,6 @@ The orderly-web-deploy tool is not currently updated on PyPI, so install that fr
 # Migration of old packets
 
 We've removed the old orderly-to-packit migration, so this needs to be run manually.
-
-The current initialisation of outpack, via rust, is incomplete and a `local` location is required, which is a small fix in https://github.com/mrc-ide/outpack_server/blob/main/src/init.rs#L7 - in the meantime edit the file `/outpack/.outpack/config.json` in the outpack volume to contain
-
-```
-{"core":{"hash_algorithm":"sha256","path_archive":null,"use_file_store":true,"require_complete_tree":true},"location":[{"name":"local","type":"local","args":{}}]}
-```
-
-with the bit in the `location` key being important.
 
 Try a migration with:
 
@@ -111,13 +99,29 @@ Replace `uat` with `science` or `production` on those machines.
 
 See https://github.com/vimc/montagu-deploy for more details on the deploy tool.
 
+# First-time deployment
+
+The first time that montagu is deployed on a machine (or after removing data volumes) additional work is required:
+
+## Create an initial admin user
+
 On the first deployment for a machine you will not have an admin user in Packit, which is problematic.  You can promote a user to admin in Packit after they've logged in to Montagu by running
 
 ```
 docker exec orderly-web-packit-db promote-user --email u.name@imperial.ac.uk
 ```
 
-# Post deployment
+## Update the packages for the runner
+
+The runner library volume (`orderly_library`) will need required packages installed.  Do this by running
+
+```
+docker run --rm -v orderly_library:/library -v $PWD/packages:/packages:ro -w /packages mrcide/orderly.runner:main ./install_packages
+```
+
+See [`packages/README.md`](packages/README.md) for more information.
+
+## Update the data vis tool
 
 After deploying both Montagu AND OrderlyWeb, you may need to copy the data viz tools into place. This can be done
 with `./scripts/copy-vis-tool.sh`.

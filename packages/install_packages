@@ -1,0 +1,27 @@
+#!/usr/bin/env Rscript
+install <- function(path) {
+  pkgs <- yaml::read_yaml(path)
+  options(repos = c(pkgs$repos, getOption("repos")))
+  installed <- .packages(TRUE)
+
+  msg <- setdiff(pkgs$packages, installed)
+  if (length(msg)) {
+    install.packages(msg)
+  }
+
+  i <- !(basename(pkgs$github) %in% installed)
+  if (any(i)) {
+    remotes::install_github(pkgs$github[i], upgrade = FALSE)
+  }
+
+  expected <- union(pkgs$packages, basename(pkgs$github))
+  msg <- setdiff(expected, .packages(TRUE))
+  if (length(msg)) {
+    stop(sprintf("Some packages did not install: %s",
+                 paste(msg, collapse = ", ")))
+  }
+
+  message("DONE")
+}
+
+install("packages.yml")
