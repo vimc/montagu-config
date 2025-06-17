@@ -42,8 +42,8 @@ docker cp "$CONTAINER_NAME:/dst/2020" - > $DEST/2020.tar
 docker cp "$CONTAINER_NAME:/dst/2021" - > $DEST/2021.tar
 
 echo "*** Cleaning out old versions"
-docker exec montagu-proxy rm -r /usr/share/nginx/html/2020
-docker exec montagu-proxy rm -r /usr/share/nginx/html/2021
+docker exec montagu-proxy rm -rf /usr/share/nginx/html/2020
+docker exec montagu-proxy rm -rf /usr/share/nginx/html/2021
 
 echo "*** Copying files to proxy (ignore size here, it's probably wrong)"
 cat "$DEST/2020.tar" | docker cp - montagu-proxy:/usr/share/nginx/html
