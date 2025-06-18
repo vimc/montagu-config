@@ -16,6 +16,12 @@ rm -f $DEST/*.tar
 
 echo "*** Pulling files from outpack"
 
+# This is a bit gross, but uses a small bit of R code embedded in an
+# heredoc string to pull the appropriate archive from outpack server.
+# The destination files are written to /dst/<year>/visualisation
+# within the container; we can copy these from the container even when
+# it is exited and copy those into the proxy where they will appear as
+# /usr/share/nginx/html/<year>/visualisation
 docker run -i \
        --name $CONTAINER_NAME \
        -w /orderly \
