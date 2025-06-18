@@ -123,7 +123,7 @@ See [`packages/README.md`](packages/README.md) for more information.
 
 ## Update the data vis tool
 
-After deploying both Montagu, you will need to copy the data viz tools into place.  This requires that Packit is deployed, but only needs to be redone after montagu is deployed.
+After deploying both Montagu and Packit, you will need to copy the data viz tools into place.  This requires that Packit is deployed, but only needs to be redone after montagu is deployed.
 
 ```
 ./scripts/copy-vis-tool
