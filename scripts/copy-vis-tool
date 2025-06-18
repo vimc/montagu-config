@@ -1,0 +1,53 @@
+#!/bin/bash
+set -eu
+
+CONTAINER_NAME=montagu-copy-vis-tool
+DEST=output
+
+function cleanup {
+    echo "Cleaning up..."
+    docker rm $CONTAINER_NAME || /bin/true
+    rm -rf $DEST
+}
+trap cleanup EXIT
+
+mkdir -p $DEST
+rm -f $DEST/*.tar
+
+echo "*** Pulling files from outpack"
+
+# This is a bit gross, but uses a small bit of R code embedded in an
+# heredoc string to pull the appropriate archive from outpack server.
+# The destination files are written to /dst/<year>/visualisation
+# within the container; we can copy these from the container even when
+# it is exited and copy those into the proxy where they will appear as
+# /usr/share/nginx/html/<year>/visualisation
+docker run -i \
+       --name $CONTAINER_NAME \
+       -w /orderly \
+       --network montagu_default \
+       mrcide/orderly.runner:main Rscript - << "EOF"
+orderly2::orderly_init(use_file_store = TRUE)
+orderly2::orderly_location_add_http("montagu", "http://orderly-web-outpack-server:8000")
+orderly2::orderly_location_fetch_metadata()
+
+copy <- list("2020/visualisation" = "20210323-091557-54aa64f1",
+             "2021/visualisation" = "20210713-133411-1133b34e")
+
+for (app in names(copy)) {
+  orderly2::orderly_copy_files(copy[[app]], "./", file.path("/dst", app),
+                               allow_remote = TRUE)
+}
+EOF
+
+echo "*** Copying files to host"
+docker cp "$CONTAINER_NAME:/dst/2020" - > $DEST/2020.tar
+docker cp "$CONTAINER_NAME:/dst/2021" - > $DEST/2021.tar
+
+echo "*** Cleaning out old versions"
+docker exec montagu-proxy rm -rf /usr/share/nginx/html/2020
+docker exec montagu-proxy rm -rf /usr/share/nginx/html/2021
+
+echo "*** Copying files to proxy (ignore size here, it's probably wrong)"
+cat "$DEST/2020.tar" | docker cp - montagu-proxy:/usr/share/nginx/html
+cat "$DEST/2021.tar" | docker cp - montagu-proxy:/usr/share/nginx/html
