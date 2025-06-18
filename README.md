@@ -169,6 +169,9 @@ Once brought down with the old version, you can then use the globally installed 
 
 # Backup and restore
 
+See [`backup.md`](backup.md) for details on this process.
+
+
 To interact with the backups (key generation, backup, restore, etc) you will need `privateer2` installed.  Currently do this by installing manually from the sources (`hatch build`, copy the whl file around then `pip3 install --user <path>`). Once we merge back into `privateer`, you can install from pypi with pip:
 
 ```
