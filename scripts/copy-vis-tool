@@ -27,12 +27,9 @@ orderly2::orderly_location_fetch_metadata()
 
 copy <- list("2020/visualisation" = "20210323-091557-54aa64f1",
              "2021/visualisation" = "20210713-133411-1133b34e")
-dst <- "/dst"
 
 for (app in names(copy)) {
-  id <- copy[[app]]
-  files <- unique(orderly2::orderly_metadata(id)$files$path) # "./" in orderly2 .69
-  orderly2::orderly_copy_files(id, files, file.path(dst, app),
+  orderly2::orderly_copy_files(copy[[app]], "./", file.path("/dst", app),
                                allow_remote = TRUE)
 }
 EOF
