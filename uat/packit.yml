@@ -1,7 +1,7 @@
 # For now, we need to use this prefix because a few things depend on
 # it.  We will possibly move to something else in future, because this
 # will be a bit weird.
-container_prefix: orderly-web
+container_prefix: packit
 
 protect_data: true
 

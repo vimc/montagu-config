@@ -108,7 +108,7 @@ The first time that montagu is deployed on a machine (or after removing data vol
 On the first deployment for a machine you will not have an admin user in Packit, which is problematic.  You can promote a user to admin in Packit after they've logged in to Montagu by running
 
 ```
-docker exec orderly-web-packit-db promote-user --email u.name@imperial.ac.uk
+docker exec packit-db promote-user --email u.name@imperial.ac.uk
 ```
 
 ## Update the packages for the runner
