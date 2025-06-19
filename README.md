@@ -82,6 +82,17 @@ docker run --rm -d --name outpack-migrate \
     /orderly /outpack --minutes=5
 ```
 
+On production, I have run
+
+```
+docker pull mrcide/outpack.orderly:main
+docker run -it --rm --name outpack-migrate \
+    -v montagu_orderly_volume:/orderly:ro \
+    -v montagu_outpack_volume:/outpack \
+    mrcide/outpack.orderly:main \
+    /orderly /outpack --once
+```
+
 # Deployment
 
 On a first deployment (after bringing down all containers), the order matters.  You need to bring up `packit` (and `OrderlyWeb` if you are using that) *before* `montagu`, otherwise the proxy will fail to start.
@@ -89,6 +100,12 @@ On a first deployment (after bringing down all containers), the order matters.  
 If you get a gateway error causing packit login to fail, redeploy montagu (or have a go just restarting the proxy container). This can happen if you redeploy packit without subsequently restarting montagu.
 
 Assuming `uat` here:
+
+Start OrderlyWeb from `montagu-orderly-web/` with:
+
+```
+./start
+```
 
 ```
 packit start --pull uat
@@ -108,8 +125,10 @@ The first time that montagu is deployed on a machine (or after removing data vol
 On the first deployment for a machine you will not have an admin user in Packit, which is problematic.  You can promote a user to admin in Packit after they've logged in to Montagu by running
 
 ```
-docker exec montagu-packit-db promote-user --email u.name@imperial.ac.uk
+./scripts/promote-packit-user u.name@imperial.ac.uk
 ```
+
+
 
 ## Update the packages for the runner
 
