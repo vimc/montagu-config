@@ -33,10 +33,11 @@ This is most often done to restore onto `uat` or `science`, refreshing the data 
 
 ### Orderly
 
-This one is fairly easy, as we just need to copy the data over:
+This one is fairly easy, as we just need to copy the data over, for both the orderly and outpack volumes:
 
 ```
 privateer restore montagu_orderly_volume --server=annex2 --source=production
+privateer restore montagu_outpack_volume --server=annex2 --source=production
 ```
 
 This can be done fairly safely while the system is running, with the exception that OrderlyWeb does use the SQLite database in the orderly volume.  As such, until we retire `orderly1`/OrderlyWeb it is probably best to do this after taking montagu down (run `./stop` from the `montagu-orderly-web` directory).
