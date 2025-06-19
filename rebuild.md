@@ -70,20 +70,16 @@ Go to https://uat.montagu.dide.ic.ac.uk/ and log in, you should see no errors.  
 ./scripts/uat.sh
 ```
 
-**Build the runner library**
-
-```
-./scripts/build-orderly-library
-```
-
-
-
 which will prompt you for your montagu username and password, give you a summary of what it will migrate and which you can press 'y' to continue with the migration.
-
-Note that the packet migration must have completed by this point or the migration will fail.
 
 **Copy the data vis tool**
 
 ```
 ./scripts/copy-vis-tool
+```
+
+**Build the runner library**
+
+```
+./scripts/build-orderly-library
 ```
