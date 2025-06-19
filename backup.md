@@ -169,6 +169,7 @@ To manually force a backup:
 
 ```
 privateer backup montagu_orderly_volume --server annex2
+privateer backup montagu_outpack_volume --server annex2
 ```
 
 This is only meaningful for the orderly volume, because the db volume is handled by `barman`.  Because this is incremental, it will usually be fairly fast.
