@@ -134,10 +134,10 @@ On the first deployment for a machine you will not have an admin user in Packit,
 
 ## Update the packages for the runner
 
-The runner library volume (`orderly_library`) will need required packages installed.  Do this by running
+The runner library volume (`montagu_orderly_library`) will need required packages installed.  Do this by running
 
 ```
-docker run --rm -v orderly_library:/library -v $PWD/packages:/packages:ro -w /packages mrcide/orderly.runner:main ./install_packages
+docker run --rm -v montagu_orderly_library:/library -v $PWD/packages:/packages:ro -w /packages mrcide/orderly.runner:main ./install_packages
 ```
 
 See [`packages/README.md`](packages/README.md) for more information.

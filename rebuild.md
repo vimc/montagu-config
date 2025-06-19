@@ -74,6 +74,13 @@ Go to https://uat.montagu.dide.ic.ac.uk/ and log in, you should see no errors.  
 ./scripts/promote-packit-user u.name@imperial.ac.uk
 ```
 
+**Build the runner library**
+
+```
+docker run --rm -v montagu_orderly_library:/library -v $PWD/packages:/packages:ro -w /packages mrcide/orderly.runner:main ./install_packages
+```
+
+
 **Migrate permissions from OrderlyWeb to Packit**.  This can (and probably should) be run from your local machine's copy of [migrate-packit--perms-from-orderly-web](https://github.com/mrc-ide/migrate-packit--perms-from-orderly-web/), where you should be able to run
 
 ```
