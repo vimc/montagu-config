@@ -28,7 +28,7 @@ docker run -i \
        --network montagu_default \
        mrcide/orderly.runner:main Rscript - << "EOF"
 orderly2::orderly_init(use_file_store = TRUE)
-orderly2::orderly_location_add_http("montagu", "http://packit-outpack-server:8000")
+orderly2::orderly_location_add_http("montagu", "http://montagu-outpack-server:8000")
 orderly2::orderly_location_fetch_metadata()
 
 copy <- list("2020/visualisation" = "20210323-091557-54aa64f1",
