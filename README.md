@@ -219,13 +219,15 @@ privateer2 backup production montagu_orderly_volume --server=annex2
 ## Restore
 
 ```
-privateer2 restore production montagu_orderly_volume --server=annex
+privateer restore barman_recover --server=annex2 --to-volume montagu_db_volume
+privateer restore montagu_orderly_volume --server=annex2 --source=production2
+privateer restore montagu_outpack_volume --server=annex2 --source=production2
 ```
 
 on science this would be
 
 ```
-privateer2 restore production montagu_orderly_volume --server=annex --source=production
+privatee2 restore production montagu_orderly_volume --server=annex --source=production
 ```
 
 See https://github.com/reside-ic/privateer2 for more details on the backup tool.
