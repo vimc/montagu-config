@@ -93,6 +93,8 @@ docker run -it --rm --name outpack-migrate \
     /orderly /outpack --once
 ```
 
+which took about 2 hours from scratch.
+
 # Deployment
 
 On a first deployment (after bringing down all containers), the order matters.  You need to bring up `packit` (and `OrderlyWeb` if you are using that) *before* `montagu`, otherwise the proxy will fail to start.
@@ -188,7 +190,7 @@ Once brought down with the old version, you can then use the globally installed 
 
 # Backup and restore
 
-See [`backup.md`](backup.md) for details on this process.
+See [`backup.md`](backup.md) for details on this process.  See [`rebuild.md`](rebuild.md) for an account of rebuilding the systems in 2025.
 
 
 To interact with the backups (key generation, backup, restore, etc) you will need `privateer2` installed.  Currently do this by installing manually from the sources (`hatch build`, copy the whl file around then `pip3 install --user <path>`). Once we merge back into `privateer`, you can install from pypi with pip:
