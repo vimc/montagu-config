@@ -58,7 +58,13 @@ montagu start --pull uat
 
 It's worth, at this point, running `docker ps -a` and looking for exited containers (or `docker ps -a --filter status=exited`) as this usually means that something terrible happened.
 
-Go to https://uat.montagu.dide.ic.ac.uk/ and log in, you should see no errors.  This creates your user in the packit db using pre-auth.  Promote your user to a super-user for packit:
+**Create yourself as a packit admin user**:
+
+On the first deployment, packit has no user database and we need to bootstrap this in order to receive users from OrderlyWeb.
+
+First, go to https://uat.montagu.dide.ic.ac.uk/ and log in, you should see no errors.  This creates your user in the packit db using pre-auth.
+
+Promote your user to a super-user for packit:
 
 ```
 ./scripts/promote-packit-user u.name@imperial.ac.uk
@@ -78,8 +84,12 @@ which will prompt you for your montagu username and password, give you a summary
 ./scripts/copy-vis-tool
 ```
 
-**Build the runner library**
+**Build the runner library**:
+
+The runner library volume (`montagu_orderly_library`) will need required packages installed.  Do this by running
 
 ```
 ./scripts/build-orderly-library
 ```
+
+See [`packages/README.md`](packages/README.md) for more information.
