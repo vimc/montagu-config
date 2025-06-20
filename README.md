@@ -116,7 +116,7 @@ packit start --pull uat
 
 Be sure to get the machine name correct (`uat`, `science` or `production`).
 
-If you want to test a branch, you will first need create a PR in [packit](https://github.com/mrc-ide/packit) so that it builds images for your branch. Then, after that image is pushed, you should return to the relevant machine (most likely you'll be doing this on `uat`) and edit the appropriate `tag:` field(s) within `uat/packit.yml`. You can do this with a local change on the machine, e.g. with `vim` or `nano` or by making a branch in `montagu-config`, depending on the complexity of the changes.
+If you want to test a branch, you will first need to create a PR in [packit](https://github.com/mrc-ide/packit) so that it builds images for your branch. Then, after that image is pushed, you should return to the relevant machine (most likely you'll be doing this on `uat`) and edit the appropriate `tag:` field(s) within `uat/packit.yml`. You can do this with a local change on the machine, e.g. with `vim` or `nano` or by making a branch in `montagu-config`, depending on the complexity of the changes.
 
 # Automatic certificate renewal
 
