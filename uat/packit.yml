@@ -7,11 +7,10 @@ repo: mrcide
 network: montagu_default
 
 volumes:
-  outpack: outpack_volume
-  proxy_logs: packit_proxy_logs
-  packit_db: packit_db
-  orderly_library: orderly_library
-  orderly_logs: orderly_logs
+  outpack: montagu_outpack_volume
+  packit_db: montagu_packit_db
+  orderly_library: montagu_orderly_library
+  orderly_logs: montagu_orderly_logs
 
 outpack:
   server:

@@ -17,11 +17,11 @@ This will need to be done periodically, to cope with new versions of R (or syste
 Run
 
 ```
-docker run --rm -v orderly_library:/library -v $PWD/packages:/packages:ro -w /packages mrcide/orderly.runner:main ./install_packages
+./scripts/build-orderly-library
 ```
 
-If you want to drop all packages first, you can do:
+Installation is additive.  If you want to drop all packages first, you can do:
 
 ```
-docker run --rm -v orderly_library:/library -v $PWD/packages:/packages:ro -w /packages mrcide/orderly.runner:main ./delete_packages
+./scripts/delete-orderly-library
 ```

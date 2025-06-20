@@ -1,0 +1,5 @@
+#!/bin/bash
+if [ "$#" -ne 1 ]; then
+    echo "Expected exactly one argument; the email address of the user"
+fi
+docker exec montagu-packit-db promote-user --email $1

@@ -61,26 +61,20 @@ The orderly-web-deploy tool is not currently updated on PyPI, so install that fr
 
 We've removed the old orderly-to-packit migration, so this needs to be run manually.
 
-Try a migration with:
+On production, I have run
 
 ```
 docker pull mrcide/outpack.orderly:main
 docker run -it --rm --name outpack-migrate \
     -v montagu_orderly_volume:/orderly:ro \
-    -v outpack_volume:/outpack \
+    -v montagu_outpack_volume:/outpack \
     mrcide/outpack.orderly:main \
     /orderly /outpack --once
 ```
 
-Or schedule recurring migrations with
+which took about 2 hours from scratch.  This is now the source of truth, and is backed up via privateer.
 
-```
-docker run --rm -d --name outpack-migrate \
-    -v montagu_orderly_volume:/orderly:ro \
-    -v outpack_volume:/outpack \
-    mrcide/outpack.orderly:main \
-    /orderly /outpack --minutes=5
-```
+Continuous migrations are not currently running, and we need to do some work to remove the old migration from the OrderlyWeb deploy that is running on production.
 
 # Deployment
 
@@ -89,6 +83,12 @@ On a first deployment (after bringing down all containers), the order matters.  
 If you get a gateway error causing packit login to fail, redeploy montagu (or have a go just restarting the proxy container). This can happen if you redeploy packit without subsequently restarting montagu.
 
 Assuming `uat` here:
+
+Start OrderlyWeb from `montagu-orderly-web/` with:
+
+```
+./start
+```
 
 ```
 packit start --pull uat
@@ -99,31 +99,7 @@ Replace `uat` with `science` or `production` on those machines.
 
 See https://github.com/vimc/montagu-deploy for more details on the deploy tool.
 
-# First-time deployment
-
-The first time that montagu is deployed on a machine (or after removing data volumes) additional work is required:
-
-## Create an initial admin user
-
-On the first deployment for a machine you will not have an admin user in Packit, which is problematic.  You can promote a user to admin in Packit after they've logged in to Montagu by running
-
-```
-docker exec montagu-packit-db promote-user --email u.name@imperial.ac.uk
-```
-
-## Update the packages for the runner
-
-The runner library volume (`orderly_library`) will need required packages installed.  Do this by running
-
-```
-docker run --rm -v orderly_library:/library -v $PWD/packages:/packages:ro -w /packages mrcide/orderly.runner:main ./install_packages
-```
-
-See [`packages/README.md`](packages/README.md) for more information.
-
-## Update the data vis tool
-
-After deploying both Montagu and Packit, you will need to copy the data viz tools into place.  This requires that Packit is deployed, but only needs to be redone after montagu is deployed.
+After deploying montagu you will need to update the data vis tool by running
 
 ```
 ./scripts/copy-vis-tool
@@ -140,17 +116,21 @@ packit start --pull uat
 
 Be sure to get the machine name correct (`uat`, `science` or `production`).
 
-If you want to test a branch, you will first need to adapt the build_montagu_packit_front_end.yml workflow from [packit](https://github.com/mrc-ide/packit) so that it runs for your branch. Then, after that image is pushed, you should return to the relevant machine (most likely you'll be doing this on `uat`) and edit the appropriate `tag:` field(s) within `uat/packit.yml`. You can do this with a local change on the machine, e.g. with `vim` or `nano` or by making a branch in `montagu-config`, depending on the complexity of the changes. 
+If you want to test a branch, you will first need to create a PR in [packit](https://github.com/mrc-ide/packit) so that it builds images for your branch. Then, after that image is pushed, you should return to the relevant machine (most likely you'll be doing this on `uat`) and edit the appropriate `tag:` field(s) within `uat/packit.yml`. You can do this with a local change on the machine, e.g. with `vim` or `nano` or by making a branch in `montagu-config`, depending on the complexity of the changes.
 
 # Automatic certificate renewal
 
 If automatic certificates are enabled, you should run the `renew-certificate` the first time you deploy montagu to get the initial certificate.
 
-    montagu renew-certificate <path>
+```
+montagu renew-certificate <path>
+```
 
 This command will need to be run periodically to ensure the certificate stays up-to-date. This is done by installing a systemd timer, using the provided `install-timer.sh` script.
 
-    ./scripts/install-timer.sh <path>
+```
+./scripts/install-timer.sh <path>
+```
 
 # Interacting with orderly-web
 
@@ -169,39 +149,4 @@ Once brought down with the old version, you can then use the globally installed 
 
 # Backup and restore
 
-To interact with the backups (key generation, backup, restore, etc) you will need `privateer2` installed.  Currently do this by installing manually from the sources (`hatch build`, copy the whl file around then `pip3 install --user <path>`). Once we merge back into `privateer`, you can install from pypi with pip:
-
-```
-pip3 install --user privateer
-```
-
-Before any backup and restore is possible, you would have first needed to create keys:
-
-```
-privateer2 keygen --all
-```
-
-Each machine that uses privateer needs to be configured; this is `annex` and `annex2` (the servers) and `production`, `production2`, `science` and `uat`. This pulls keys from the vault and writes out persistent ssh configuration.
-
-## Backup
-
-We don't yet support scheduled backups, so everything is manual for now.
-
-```
-privateer2 backup production montagu_orderly_volume --server=annex
-privateer2 backup production montagu_orderly_volume --server=annex2
-```
-
-## Restore
-
-```
-privateer2 restore production montagu_orderly_volume --server=annex
-```
-
-on science this would be
-
-```
-privateer2 restore production montagu_orderly_volume --server=annex --source=production
-```
-
-See https://github.com/reside-ic/privateer2 for more details on the backup tool.
+See [`backup.md`](backup.md) for details on this process.  See [`rebuild.md`](rebuild.md) for an account of rebuilding the systems in 2025.
