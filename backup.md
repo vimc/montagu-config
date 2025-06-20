@@ -29,16 +29,18 @@ privateer --version
 
 ## Restore
 
-This is most often done to restore onto `uat` or `science`, refreshing the data that is stored there.
+By "restore", we mean to take a bunch of data from backup, originally from production(2), and creating a functional montagu server, probably a staging machine.  This is done both when rescuing a machine, or more typically, when making sure that current production data is available for science to use.  This is most typically done to restore onto `uat` or `science`.
 
 ### Orderly
 
 This one is fairly easy, as we just need to copy the data over, for both the orderly and outpack volumes:
 
 ```
-privateer restore montagu_orderly_volume --server=annex2 --source=production
-privateer restore montagu_outpack_volume --server=annex2 --source=production
+privateer restore montagu_orderly_volume --server=annex2 --source=production2
+privateer restore montagu_outpack_volume --server=annex2 --source=production2
 ```
+
+Here, `production2` is the original source of the data, and `annex2` is the backuip server that it is stored on.
 
 This can be done fairly safely while the system is running, with the exception that OrderlyWeb does use the SQLite database in the orderly volume.  As such, until we retire `orderly1`/OrderlyWeb it is probably best to do this after taking montagu down (run `./stop` from the `montagu-orderly-web` directory).
 
