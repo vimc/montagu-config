@@ -2,11 +2,7 @@ container_prefix: montagu
 
 protect_data: true
 
-## Docker org for packit images
 repo: ghcr.io/mrc-ide
-
-## Docker org for outpack images
-outpack_repo: mrcide
 
 network: montagu_default
 
