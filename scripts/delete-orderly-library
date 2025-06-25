@@ -3,4 +3,4 @@ docker run --rm \
        -v montagu_orderly_library:/library \
        -v $PWD/packages:/packages:ro \
        -w /packages \
-       mrcide/orderly.runner:main ./delete_packages
+       ghcr.io/mrc-ide/orderly.runner:main ./delete_packages
