@@ -26,7 +26,7 @@ docker run -i \
        --name $CONTAINER_NAME \
        -w /orderly \
        --network montagu_default \
-       mrcide/orderly.runner:main Rscript - << "EOF"
+       ghcr.io/mrc-ide/orderly.runner:main Rscript - << "EOF"
 orderly2::orderly_init(use_file_store = TRUE)
 orderly2::orderly_location_add_http("montagu", "http://montagu-outpack-server:8000")
 orderly2::orderly_location_fetch_metadata()

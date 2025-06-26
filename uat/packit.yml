@@ -2,7 +2,7 @@ container_prefix: montagu
 
 protect_data: true
 
-repo: mrcide
+repo: ghcr.io/mrc-ide
 
 network: montagu_default
 
