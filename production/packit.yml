@@ -1,0 +1,80 @@
+container_prefix: montagu
+
+protect_data: true
+
+repo: ghcr.io/mrc-ide
+
+network: montagu_default
+
+volumes:
+  outpack: montagu_outpack_volume
+  packit_db: montagu_packit_db
+  orderly_library: montagu_orderly_library
+  orderly_logs: montagu_orderly_logs
+
+outpack:
+  server:
+    name: outpack_server
+    tag: main
+
+packit:
+  base_url: https://montagu.vaccineimpact.org/packit
+  api:
+    name: packit-api
+    tag: main
+  app:
+    name: montagu-packit
+    tag: main
+  db:
+    name: packit-db
+    tag: main
+    user: packituser
+    password: changeme
+  auth:
+    enabled: true
+    auth_method: preauth
+    # We'll get this from the vault on production
+    jwt:
+      secret: "0b4g4f8z4mdsrhoxfde2mam8f00vmt0f"
+    expiry_days: 1
+  # Location that is allowed to make the request
+  # https://dietcode.io/p/cors/
+  cors_allowed_origins: "https://montagu.vaccineimpact.org"
+
+brand:
+  # Paths are interpreted relative to this configuration file, so
+  # we'll have to duplicate everything at the moment.  We might want
+  # to make that relative to somewhere else, but no other choices are
+  # really very obvious.
+  favicon_path: img/logo-small.png
+  logo_alt_text: VIMC logo
+  logo_link: https://montagu.vaccineimpact.org/
+  logo_path: img/logo-green.png
+  name: Reporting Portal
+  css:
+    light:
+      accent: "#0077C2" # mid blue
+      accent_foreground: "#ffffff" # white
+
+orderly-runner:
+  image:
+    name: orderly.runner
+    tag: main
+  git:
+    url: git@github.com:vimc/montagu-reports.git
+    ssh: VAULT:secret/vimc/reports/deploy:private
+  workers: 1
+  env:
+    MONTAGU_DB_DEFAULT_INSTANCE: production
+    MONTAGU_DB_PASSWORD_UAT: readonly
+    MONTAGU_DB_PASSWORD_SCIENCE: VAULT:secret/vimc/database/science/users/readonly:password
+    MONTAGU_DB_PASSWORD_PRODUCTION: VAULT:secret/vimc/database/production/users/readonly:password
+    ORDERLY_API_SERVER_IDENTITY: production
+    ANNEX_HOST: annex.montagu.dide.ic.ac.uk
+    ANNEX_PORT: 15432
+    ANNEX_PASSWORD: VAULT:secret/vimc/annex/users/readonly:password
+
+vault:
+  addr: https://vault.dide.ic.ac.uk:8200
+  auth:
+    method: github
