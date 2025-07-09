@@ -1,4 +1,4 @@
-This file documents the process used to completely rebuild the `uat` system ahead of the rollout of orderly2/packit for VIMC.
+This file documents the process used to completely rebuild the `uat` system ahead of the rollout of orderly2/packit for VIMC.  Replace `uat` with `science` or `production` to do this for other systems.
 
 # Teardown
 
