@@ -99,3 +99,13 @@ The runner library volume (`montagu_orderly_library`) will need required package
 ```
 
 See [`packages/README.md`](packages/README.md) for more information.
+
+**Schedule regular backups**:
+
+On `production` only, run
+
+```
+privateer schedule --as production2 start
+```
+
+(there's a small privateer bug that requires use of `--as` here)

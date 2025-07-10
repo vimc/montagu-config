@@ -27,6 +27,26 @@ Once installed, you can check the version by running
 privateer --version
 ```
 
+## The quick version - restoring science/uat to reflect production
+
+This is the most common activity.  Expect it to take about 2 hours.
+
+On annex2 from within `montagu-config` dump the database into the backup volume
+
+```
+./scripts/annex-dump-montagu-db
+```
+
+Then on on the machine that you want to restore into, from within `montagu-config`, run:
+
+```
+montagu stop --kill uat
+privateer restore barman_recover --server=annex2 --to-volume montagu_db_volume
+montagu start uat
+```
+
+Note that this will bring down montagu while the restore is carried out.
+
 ## Restore
 
 By "restore", we mean to take a bunch of data from backup, originally from production(2), and creating a functional montagu server, probably a staging machine.  This is done both when rescuing a machine, or more typically, when making sure that current production data is available for science to use.  This is most typically done to restore onto `uat` or `science`.
