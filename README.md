@@ -151,8 +151,6 @@ Once brought down with the old version, you can then use the globally installed 
 
 See [`backup.md`](backup.md) for details on this process.  See [`rebuild.md`](rebuild.md) for an account of rebuilding the systems in 2025.
 
-This document describes the command required to update packets from production, as well as refreshing the database to match production.
-
 # Testing a branch of a component
 
 Typically this is done on `uat` only, but occasionally it will be needed on `science`.  Avoid testing new features on `production` as that is externally visible, and may be in use by an external partner.
@@ -160,8 +158,8 @@ Typically this is done on `uat` only, but occasionally it will be needed on `sci
 For the component under test, edit the appropriate file in `uat/`, e.g., `uat/packit.yml`.  Each component has a `tag` field, which can be used to target an in-development branch building on CI (you may need to have made a PR to trigger these builds).  For `packit`, be sure to edit the tag for both `api` and `app` if these are both required.  You can make these edits live on the machine in question (`vi` and `nano` are both installed), and then deploy above with
 
 ```
-packit stop --kill uat
+packit stop uat
 packit start --pull uat
 ```
 
-You will need your GitHub access token for this process.
+You will need your GitHub access token for this process.  Using `stop --kill` will make things a bit faster to shut down, with potentially more risk of corrupting data, but we've not seen any evidence of a downside.
