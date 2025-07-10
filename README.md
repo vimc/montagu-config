@@ -41,7 +41,7 @@ You can find out what versions of things you have by running
 
 ```
 montagu-deploy --version
-packit-deploy --version
+packit --version
 privateer --version
 ```
 
