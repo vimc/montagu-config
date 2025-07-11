@@ -118,12 +118,14 @@ packages:
   - getPass
   - gfonts
   - ggalt
+  - ggbump
   - ggdist
   - ggforce
   - ggfun
   - ggplot2
   - ggpubr
   - ggrepel
+  - ggridges
   - ggsci
   - ggsignif
   - ggtext
