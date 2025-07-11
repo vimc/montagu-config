@@ -1,0 +1,12 @@
+#!/bin/bash
+set -eu
+
+if [ "$#" -ne 1 ]; then
+    echo "Expected exactly one argument, a package name"
+fi
+
+CONTAINER=montagu-orderly-runner-api
+PKG=$1
+
+echo "Installing $PKG into $CONTAINER"
+docker exec -it $CONTAINER Rscript -e "install.packages(\"$PKG\", repos=c(\"https://mrc-ide.r-universe.dev\", \"https://vimc.r-universe-dev\", \"https://cloud.r-project.org\"))"

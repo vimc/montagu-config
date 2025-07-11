@@ -1,0 +1,12 @@
+#!/bin/bash
+set -eu
+
+if [ "$#" -ne 1 ]; then
+    echo "Expected exactly one argument, a github package reference"
+fi
+
+CONTAINER=montagu-orderly-runner-api
+REF=$1
+
+echo "Installing $REF into $CONTAINER"
+docker exec -it $CONTAINER Rscript -e "remotes::install_github(\"$REF\", upgrade = FALSE)"

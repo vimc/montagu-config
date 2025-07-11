@@ -1,4 +1,4 @@
-This file documents the process used to completely rebuild the `uat` system ahead of the rollout of orderly2/packit for VIMC.
+This file documents the process used to completely rebuild the `uat` system ahead of the rollout of orderly2/packit for VIMC.  Replace `uat` with `science` or `production` to do this for other systems.
 
 # Teardown
 
@@ -62,7 +62,13 @@ It's worth, at this point, running `docker ps -a` and looking for exited contain
 
 On the first deployment, packit has no user database and we need to bootstrap this in order to receive users from OrderlyWeb.
 
-First, go to https://uat.montagu.dide.ic.ac.uk/ and log in, you should see no errors.  This creates your user in the packit db using pre-auth.
+First, go to to the relevant packit instance to login:
+
+* `uat`: https://uat.montagu.dide.ic.ac.uk/
+* `science`: https://science.montagu.dide.ic.ac.uk/
+* `production`: https://montagu.vaccineimpact.org/
+
+and log in, you should see no errors.  This creates your user in the packit db using pre-auth.
 
 Promote your user to a super-user for packit:
 
@@ -93,3 +99,13 @@ The runner library volume (`montagu_orderly_library`) will need required package
 ```
 
 See [`packages/README.md`](packages/README.md) for more information.
+
+**Schedule regular backups**:
+
+On `production` only, run
+
+```
+privateer schedule --as production2 start
+```
+
+(there's a small privateer bug that requires use of `--as` here)

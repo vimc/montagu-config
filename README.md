@@ -41,7 +41,7 @@ You can find out what versions of things you have by running
 
 ```
 montagu-deploy --version
-packit-deploy --version
+packit --version
 privateer --version
 ```
 
@@ -55,7 +55,7 @@ Again, watch out to see if `pip` actually installs this, and be particularly car
 
 ## OrderlyWeb
 
-The orderly-web-deploy tool is not currently updated on PyPI, so install that from source.
+The orderly-web-deploy tool is not currently updated on PyPI, so install that from source.  We will be removing it from the deployment soonish and it is not configured in this repository.
 
 # Migration of old packets
 
@@ -74,7 +74,7 @@ docker run -it --rm --name outpack-migrate \
 
 which took about 2 hours from scratch.  This is now the source of truth, and is backed up via privateer.
 
-Continuous migrations are not currently running, and we need to do some work to remove the old migration from the OrderlyWeb deploy that is running on production.
+Continuous migrations are not currently running.
 
 # Deployment
 
@@ -150,3 +150,16 @@ Once brought down with the old version, you can then use the globally installed 
 # Backup and restore
 
 See [`backup.md`](backup.md) for details on this process.  See [`rebuild.md`](rebuild.md) for an account of rebuilding the systems in 2025.
+
+# Testing a branch of a component
+
+Typically this is done on `uat` only, but occasionally it will be needed on `science`.  Avoid testing new features on `production` as that is externally visible, and may be in use by an external partner.
+
+For the component under test, edit the appropriate file in `uat/`, e.g., `uat/packit.yml`.  Each component has a `tag` field, which can be used to target an in-development branch building on CI (you may need to have made a PR to trigger these builds).  For `packit`, be sure to edit the tag for both `api` and `app` if these are both required.  You can make these edits live on the machine in question (`vi` and `nano` are both installed), and then deploy above with
+
+```
+packit stop uat
+packit start --pull uat
+```
+
+You will need your GitHub access token for this process.  Using `stop --kill` will make things a bit faster to shut down, with potentially more risk of corrupting data, but we've not seen any evidence of a downside.

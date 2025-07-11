@@ -1,0 +1,15 @@
+#!/bin/bash
+set -eux
+
+docker exec -it barman-montagu barman recover --jobs 4 montagu latest /recover/
+
+docker pull vimc/montagu-db:master
+docker run -d --name barman-replay-wal \
+    -v barman_recover:/pgdata \
+    vimc/montagu-db:master \
+    /etc/montagu/postgresql.production.conf
+docker exec -it barman-replay-wal montagu-wait.sh 3600
+docker stop barman-replay-wal
+docker rm barman-replay-wal
+
+echo "Done, backup is good to go"
