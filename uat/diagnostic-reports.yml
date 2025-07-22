@@ -2,6 +2,9 @@ VIMC:
   MenA:
     - report_name: diagnostics-burden-report
       assignee: e.russell
+      parameters:
+        disease: MenA
+        modelling_group: VIMC
       success_email:
         recipients:
           - e.russell@imperial.ac.uk
