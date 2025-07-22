@@ -106,7 +106,7 @@ flower:
   port: 5555
 task_queue:
   name: task-queue-worker
-  tag: master
+  tag: mrc-6454-replace-ow-with-packit
   tasks:
     diagnostic_reports:
       use_additional_recipients: false
@@ -116,8 +116,9 @@ task_queue:
   servers:
     youtrack:
       token: 123
-    orderlyweb:
-      url: http://orderly-web-web:8888
+    packit:
+      url: https://montagu-proxy:443/packit
+      disable_certificate_verify: false
     montagu:
       user: montagu-task@imperial.ac.uk
       password: password
