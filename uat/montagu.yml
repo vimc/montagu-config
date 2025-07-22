@@ -115,7 +115,7 @@ task_queue:
       min_file_age_seconds: 3600
   servers:
     youtrack:
-      token: 123
+      token: VAULT:secret/vimc/vimc-robot/youtrack-task-queue-token:value
     packit:
       url: https://uat.montagu.dide.ic.ac.uk/packit
       disable_certificate_verify: false
