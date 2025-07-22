@@ -117,7 +117,7 @@ task_queue:
     youtrack:
       token: 123
     packit:
-      url: https://montagu-proxy:443/packit
+      url: https://uat.montagu.dide.ic.ac.uk/packit
       disable_certificate_verify: false
     montagu:
       user: montagu-task@imperial.ac.uk
