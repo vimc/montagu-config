@@ -121,7 +121,7 @@ task_queue:
       disable_certificate_verify: false
     montagu:
       user: montagu-task@imperial.ac.uk
-      password: password
+      password: VAULT:secret/vimc/task-queue-user/production:password
     smtp:
       from: montagu-notifications@imperial.ac.uk
 fake_smtp_server:
