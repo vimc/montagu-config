@@ -1,9 +1,10 @@
-testGroup:
-  testDisease:
-    - report_name: diagnostic
-      assignee: a.hill
+VIMC:
+  MenA:
+    - report_name: diagnostics-burden-report
+      assignee: e.russell
       success_email:
         recipients:
-          - minimal_modeller@example.com
-          - science@example.com
+          - e.russell@imperial.ac.uk
+        publish_roles:
+          - emma.russell
         subject: "VIMC diagnostic report: {touchstone} - {group} - {disease}"
