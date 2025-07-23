@@ -1,9 +1,26 @@
-testGroup:
-  testDisease:
-    - report_name: diagnostic
-      assignee: a.hill
+VIMC:
+  MenA:
+    - report_name: diagnostics-burden-report
+      assignee: e.russell
+      parameters:
+        disease: MenA
+        modelling_group: VIMC
       success_email:
         recipients:
-          - minimal_modeller@example.com
-          - science@example.com
+          - e.russell@imperial.ac.uk
+        publish_roles:
+          - emma.russell
+        subject: "VIMC diagnostic report: {touchstone} - {group} - {disease}"
+IC-Okell:
+  Malaria:
+    - report_name: diagnostics-burden-report
+      assignee: e.russell
+      parameters:
+        disease: Malaria
+        modelling_group: IC-Okell
+      success_email:
+        recipients:
+          - e.russell@imperial.ac.uk
+        publish_roles:
+          - emma.russell
         subject: "VIMC diagnostic report: {touchstone} - {group} - {disease}"
