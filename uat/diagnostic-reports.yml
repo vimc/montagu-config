@@ -11,3 +11,16 @@ VIMC:
         publish_roles:
           - emma.russell
         subject: "VIMC diagnostic report: {touchstone} - {group} - {disease}"
+IC-Okell:
+  Malaria:
+    - report_name: diagnostics-burden-report
+      assignee: e.russell
+      parameters:
+        disease: Malaria
+        modelling_group: IC-Okell
+      success_email:
+        recipients:
+          - e.russell@imperial.ac.uk
+        publish_roles:
+          - emma.russell
+        subject: "VIMC diagnostic report: {touchstone} - {group} - {disease}"
