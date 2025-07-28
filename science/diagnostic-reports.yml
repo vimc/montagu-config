@@ -18,7 +18,8 @@ CDA-Razavi:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 Cambridge-Trotter:
   MenA:
   - assignee: j.roth
@@ -37,7 +38,8 @@ Cambridge-Trotter:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 Emory-Lopman:
   Rota:
   - assignee: a.hartner
@@ -56,7 +58,8 @@ Emory-Lopman:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 Harvard-Sweet:
   HPV:
   - assignee: k.gaythorpe
@@ -75,7 +78,8 @@ Harvard-Sweet:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 IC-Garske:
   YF:
   - assignee: j.roth
@@ -94,7 +98,8 @@ IC-Garske:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 IC-Hallett:
   HepB:
   - assignee: j.roth
@@ -113,7 +118,8 @@ IC-Hallett:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 ICDDRB-Qadri:
   Typhoid:
   - assignee: k.gaythorpe
@@ -132,7 +138,8 @@ ICDDRB-Qadri:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 IVI-Kim:
   Cholera:
   - assignee: k.gaythorpe
@@ -151,7 +158,8 @@ IVI-Kim:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
   Typhoid:
   - assignee: k.gaythorpe
     parameters:
@@ -169,7 +177,8 @@ IVI-Kim:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 JHU-Lee:
   Cholera:
   - assignee: k.gaythorpe
@@ -188,7 +197,8 @@ JHU-Lee:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
   Typhoid:
   - assignee: k.gaythorpe
     parameters:
@@ -206,7 +216,8 @@ JHU-Lee:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 JHU-Lessler:
   Rubella:
   - assignee: k.gaythorpe
@@ -225,7 +236,8 @@ JHU-Lessler:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 JHU-Lessler-WHO:
   Rubella:
   - assignee: k.gaythorpe
@@ -244,7 +256,8 @@ JHU-Lessler-WHO:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 JHU-Tam:
   Hib:
   - assignee: a.hartner
@@ -263,7 +276,8 @@ JHU-Tam:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
   PCV:
   - assignee: a.hartner
     parameters:
@@ -281,7 +295,8 @@ JHU-Tam:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
   Rota:
   - assignee: a.hartner
     parameters:
@@ -299,7 +314,8 @@ JHU-Tam:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 KPW-Jackson:
   MenA:
   - assignee: j.roth
@@ -318,7 +334,8 @@ KPW-Jackson:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 LSHTM-Clark:
   Hib:
   - assignee: a.hartner
@@ -337,7 +354,8 @@ LSHTM-Clark:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
   PCV:
   - assignee: a.hartner
     parameters:
@@ -355,7 +373,8 @@ LSHTM-Clark:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
   Rota:
   - assignee: a.hartner
     parameters:
@@ -373,7 +392,8 @@ LSHTM-Clark:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 LSHTM-Jit:
   HPV:
   - assignee: k.gaythorpe
@@ -392,7 +412,8 @@ LSHTM-Jit:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
   Measles:
   - assignee: j.roth
     parameters:
@@ -410,7 +431,8 @@ LSHTM-Jit:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 LSHTM-Jit-WHO:
   Measles:
   - assignee: j.roth
@@ -429,7 +451,8 @@ LSHTM-Jit-WHO:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 Li:
   HepB:
   - assignee: j.roth
@@ -448,7 +471,8 @@ Li:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 NUS-Chen:
   PCV:
   - assignee: a.hartner
@@ -467,7 +491,8 @@ NUS-Chen:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 OUCRU-Clapham:
   JE:
   - assignee: j.roth
@@ -486,7 +511,8 @@ OUCRU-Clapham:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 PHE-Vynnycky:
   Rubella:
   - assignee: k.gaythorpe
@@ -505,7 +531,8 @@ PHE-Vynnycky:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 PHE-Vynnycky-WHO:
   Rubella:
   - assignee: k.gaythorpe
@@ -524,7 +551,8 @@ PHE-Vynnycky-WHO:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 PSU-Ferrari:
   Measles:
   - assignee: j.roth
@@ -543,7 +571,8 @@ PSU-Ferrari:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 PSU-Ferrari-WHO:
   Measles:
   - assignee: j.roth
@@ -562,7 +591,8 @@ PSU-Ferrari-WHO:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 UND-Moore:
   JE:
   - assignee: j.roth
@@ -581,7 +611,8 @@ UND-Moore:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 UND-Perkins:
   YF:
   - assignee: j.roth
@@ -600,7 +631,8 @@ UND-Perkins:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 VIMC:
   Cholera:
   - assignee: k.gaythorpe
@@ -619,7 +651,8 @@ VIMC:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
   Typhoid:
   - assignee: k.gaythorpe
     parameters:
@@ -637,7 +670,8 @@ VIMC:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers
 Yale-Pitzer:
   Typhoid:
   - assignee: k.gaythorpe
@@ -656,4 +690,5 @@ Yale-Pitzer:
       - e.russell@imperial.ac.uk
       - montagu-help@imperial.ac.uk
       subject: 'VIMC diagnostic report: {touchstone} - {group} - {disease}'
-    timeout: 7200
+    publish_roles:
+      - Modellers

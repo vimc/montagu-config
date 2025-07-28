@@ -114,9 +114,10 @@ task_queue:
       min_file_age_seconds: 3600
   servers:
     youtrack:
-      token: 123
-    orderlyweb:
-      url: http://orderly-web-web:8888
+      token: VAULT:secret/vimc/youtrack-integration/youtrack:token
+    packit:
+      url: https://science.montagu.dide.ic.ac.uk/packit
+      disable_certificate_verify: false
     montagu:
       user: montagu-task@imperial.ac.uk
       password: VAULT:secret/vimc/task-queue-user/science:password

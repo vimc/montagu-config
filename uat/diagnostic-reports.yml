@@ -2,12 +2,12 @@ IC-Okell:
   Malaria:
     - report_name: diagnostics-burden-report
       assignee: Robot
+      publish_roles:
+        - Modellers
       parameters:
         disease: Malaria
         modelling_group: IC-Okell
       success_email:
         recipients:
           - reside@imperial.ac.uk
-        publish_roles:
-          - Modellers
         subject: "VIMC diagnostic report: {touchstone} - {group} - {disease}"
