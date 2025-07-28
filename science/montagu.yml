@@ -114,7 +114,7 @@ task_queue:
       min_file_age_seconds: 3600
   servers:
     youtrack:
-      token: VAULT:secret/vimc/youtrack-integration/youtrack:token
+      token: 123
     packit:
       url: https://science.montagu.dide.ic.ac.uk/packit
       disable_certificate_verify: false
