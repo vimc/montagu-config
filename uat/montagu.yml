@@ -106,7 +106,7 @@ flower:
   port: 5555
 task_queue:
   name: task-queue-worker
-  tag: master
+  tag: mrc-6454-replace-ow-with-packit
   tasks:
     diagnostic_reports:
       use_additional_recipients: false
@@ -121,7 +121,7 @@ task_queue:
       disable_certificate_verify: false
     montagu:
       user: montagu-task@imperial.ac.uk
-      password: VAULT:secret/vimc/task-queue-user/production:password
+      password: VAULT:secret/vimc/task-queue-user/uat:password
     smtp:
       from: montagu-notifications@imperial.ac.uk
 fake_smtp_server:
