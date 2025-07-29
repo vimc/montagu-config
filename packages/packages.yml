@@ -141,6 +141,7 @@ packages:
   - gridExtra
   - gt
   - gtable
+  - gtExtras
   - haven
   - highr
   - hms

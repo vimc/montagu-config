@@ -1,9 +1,13 @@
-testGroup:
-  testDisease:
-    - report_name: diagnostic
-      assignee: a.hill
+IC-Okell:
+  Malaria:
+    - report_name: diagnostics-burden-report
+      assignee: Robot
+      publish_roles:
+        - Modellers
+      parameters:
+        disease: Malaria
+        modelling_group: IC-Okell
       success_email:
         recipients:
-          - minimal_modeller@example.com
-          - science@example.com
+          - reside@imperial.ac.uk
         subject: "VIMC diagnostic report: {touchstone} - {group} - {disease}"

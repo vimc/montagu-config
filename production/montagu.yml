@@ -126,9 +126,10 @@ task_queue:
       min_file_age_seconds: 3600
   servers:
     youtrack:
-      token: VAULT:secret/vimc/vimc-robot/youtrack-task-queue-token:value
-    orderlyweb:
-      url: http://orderly-web-web:8888
+      token: VAULT:secret/vimc/youtrack-integration/youtrack:token
+    packit:
+      url: https://montagu.vaccineimpact.org/packit
+      disable_certificate_verify: false
     montagu:
       user: montagu-task@imperial.ac.uk
       password: VAULT:secret/vimc/task-queue-user/production:password

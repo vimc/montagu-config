@@ -115,8 +115,9 @@ task_queue:
   servers:
     youtrack:
       token: 123
-    orderlyweb:
-      url: http://orderly-web-web:8888
+    packit:
+      url: https://science.montagu.dide.ic.ac.uk/packit
+      disable_certificate_verify: false
     montagu:
       user: montagu-task@imperial.ac.uk
       password: VAULT:secret/vimc/task-queue-user/science:password
