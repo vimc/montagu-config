@@ -40,7 +40,7 @@ Be aware that attempting installing with `pip` is not always sufficient for it t
 You can find out what versions of things you have by running
 
 ```
-montagu-deploy --version
+montagu --version
 packit --version
 privateer --version
 ```
