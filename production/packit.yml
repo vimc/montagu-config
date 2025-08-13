@@ -72,6 +72,8 @@ orderly-runner:
     ANNEX_HOST: annex.montagu.dide.ic.ac.uk
     ANNEX_PORT: 15432
     ANNEX_PASSWORD: VAULT:secret/vimc/annex/users/readonly:password
+    VERSE_DEPLOY_KEY: VAULT:secret/vimc/verse/deploy:private
+    VERSE_DEC23_DEPLOY_KEY: VAULT:secret/vimc/verse/deploy-dec-23:private
 
 vault:
   addr: https://vault.dide.ic.ac.uk:8200
