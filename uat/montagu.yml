@@ -106,7 +106,7 @@ flower:
   port: 5555
 task_queue:
   name: task-queue-worker
-  tag: mrc-6454-replace-ow-with-packit
+  tag: master
   tasks:
     diagnostic_reports:
       use_additional_recipients: false
