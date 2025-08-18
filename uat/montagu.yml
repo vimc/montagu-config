@@ -106,7 +106,7 @@ flower:
   port: 5555
 task_queue:
   name: task-queue-worker
-  tag: mrc-6454-replace-ow-with-packit
+  tag: master
   tasks:
     diagnostic_reports:
       use_additional_recipients: false
@@ -129,4 +129,4 @@ fake_smtp_server:
   name: fake-smtp-server
   tag: latest
 
-orderly_web_api_url: https://uat.montagu.dide.ic.ac.uk/reports/api/v2
+packit_api_url: https://uat.montagu.dide.ic.ac.uk/packit/api
