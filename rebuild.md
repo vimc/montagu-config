@@ -5,9 +5,9 @@ This file documents the process used to completely rebuild the `uat` system ahea
 Stop everything
 
 ```
-packit stop --kill uat
+packit stop --kill
 (cd ../montagu-orderly-web && ./stop)
-montagu stop --kill --network uat
+montagu stop --kill --network
 ```
 
 Clear out all of docker:
@@ -47,13 +47,15 @@ These took about an hour to copy over from scratch, which is not terrible.  Do n
 **Start Packit**; in `montagu-config/` with:
 
 ```
-packit start --pull uat
+packit configure uat
+packit start --pull
 ```
 
 **Start montagu**; in `montagu-config/` with:
 
 ```
-montagu start --pull uat
+montagu configure uat
+montagu start --pull
 ```
 
 It's worth, at this point, running `docker ps -a` and looking for exited containers (or `docker ps -a --filter status=exited`) as this usually means that something terrible happened.
