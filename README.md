@@ -13,12 +13,9 @@ The components currently described are:
 
 Historically relevant information will be found in:
 
-* [`montagu-orderly-web`](https://github.com/vimc/montagu-orderly-web); old configuration for orderly web. This will be present for a while at least
 * [`montagu`](https://github.com/vimc/montagu)
 * [`montagu-db-backup`](https://github.com/vimc/montagu-db-backup)
 * [`starport`](https://github.com/vimc/starport)
-
-and other places that we'll collect here.
 
 We are aiming to progressively streamline this process.
 

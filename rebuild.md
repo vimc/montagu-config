@@ -6,7 +6,6 @@ Stop everything
 
 ```
 packit stop --kill
-(cd ../montagu-orderly-web && ./stop)
 montagu stop --kill --network
 ```
 
@@ -36,13 +35,6 @@ privateer restore montagu_outpack_volume --server=annex2 --source=production2
 These took about an hour to copy over from scratch, which is not terrible.  Do not bring anything up while this process is running, as that could result in confused containers as the data changes underneath them.
 
 # Bringing the system up
-
-**Start OrderlyWeb**; in `montagu-orderly-web/` with:
-
-```
-./setup uat
-./start
-```
 
 **Start Packit**; in `montagu-config/` with:
 
@@ -77,14 +69,6 @@ Promote your user to a super-user for packit:
 ```
 ./scripts/promote-packit-user u.name@imperial.ac.uk
 ```
-
-**Migrate permissions from OrderlyWeb to Packit**.  This can (and probably should) be run from your local machine's copy of [migrate-packit--perms-from-orderly-web](https://github.com/mrc-ide/migrate-packit--perms-from-orderly-web/), where you should be able to run
-
-```
-./scripts/uat.sh
-```
-
-which will prompt you for your montagu username and password, give you a summary of what it will migrate and which you can press 'y' to continue with the migration.
 
 **Copy the data vis tool**
 
