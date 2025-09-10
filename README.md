@@ -81,7 +81,7 @@ After deploying montagu you will need to update the data vis tool by running
 ./scripts/copy-vis-tool
 ```
 
-This must be done each time montagu has been deployed because it updates files in the proxy container.
+This must be done each time montagu has been deployed because it updates files in the proxy container, but this is only necessary on `production` because nobody uses the vis tool on `science` or `uat`.
 
 # Interacting with packit
 
