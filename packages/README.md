@@ -38,13 +38,6 @@ for example, we see errors about a missing `gdal-config`, and an inability to
 load `libudunits2.so.0`; googling those error messages quickly gets you to what's
 missing.
 
-Packages can be hot-installed into the container with something like the following:-
-
-```
-docker exec -it montagu-orderly-runner-api bash
-apt update
-apt install libudunits2-dev libgdal-dev libgeos-dev libproj-dev
-```
-
-and the required packages should also be added to the dockerfile for the next deploy - 
-see https://github.com/mrc-ide/orderly.runner/blob/main/docker/Dockerfile
+System libraries need installing in both the runner-api, and the workers. So to add libraries,
+make a PR that update https://github.com/mrc-ide/orderly.runner/blob/main/docker/Dockerfile and
+when it is merged, redeploy.
