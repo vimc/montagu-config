@@ -21,6 +21,20 @@ install <- function(path) {
                  paste(msg, collapse = ", ")))
   }
 
+  message("*** Trying to load all packages")
+  err <- FALSE
+  for (p in expected) {
+    err <- err || isTRUE(tryCatch(
+      loadNamespace(p),
+      error = function(e) {
+        message(sprintf("Failed to load '%s': %s", p, conditionMessage(e)))
+        TRUE
+      }))
+  }
+  if (err) {
+    stop("Some packages do not have the required system dependencies")
+  }
+
   message("DONE")
 }
 
