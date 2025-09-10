@@ -28,7 +28,7 @@ packages:
   - Rcpp
   - RcppEigen
   - RcppRoll
-  - Rttf2pt1
+  # - Rttf2pt1 - currently Archived on CRAN
   - SparseM
   - V8
   - XML
@@ -94,7 +94,7 @@ packages:
   - ellipse
   - ellipsis
   - evaluate
-  - extrafont
+  # - extrafont - currently Archived on CRAN
   - extrafontdb
   - fansi
   - farver
@@ -117,7 +117,7 @@ packages:
   - gert
   - getPass
   - gfonts
-  - ggalt
+  # - ggalt - currently Archived on CRAN
   - ggbump
   - ggdist
   - ggforce
@@ -347,3 +347,6 @@ github:
   - jokergoo/ComplexHeatmap
   - adletaw/captioner
   - nfultz/stackoverflow
+  - cran/Rttf2pt1
+  - cran/extrafont
+  - cran/ggalt
