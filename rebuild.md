@@ -5,9 +5,8 @@ This file documents the process used to completely rebuild the `uat` system ahea
 Stop everything
 
 ```
-packit stop --kill uat
-(cd ../montagu-orderly-web && ./stop)
-montagu stop --kill --network uat
+packit stop --kill
+montagu stop --kill --network
 ```
 
 Clear out all of docker:
@@ -37,23 +36,18 @@ These took about an hour to copy over from scratch, which is not terrible.  Do n
 
 # Bringing the system up
 
-**Start OrderlyWeb**; in `montagu-orderly-web/` with:
-
-```
-./setup uat
-./start
-```
-
 **Start Packit**; in `montagu-config/` with:
 
 ```
-packit start --pull uat
+packit configure uat
+packit start --pull
 ```
 
 **Start montagu**; in `montagu-config/` with:
 
 ```
-montagu start --pull uat
+montagu configure uat
+montagu start --pull
 ```
 
 It's worth, at this point, running `docker ps -a` and looking for exited containers (or `docker ps -a --filter status=exited`) as this usually means that something terrible happened.
@@ -75,14 +69,6 @@ Promote your user to a super-user for packit:
 ```
 ./scripts/promote-packit-user u.name@imperial.ac.uk
 ```
-
-**Migrate permissions from OrderlyWeb to Packit**.  This can (and probably should) be run from your local machine's copy of [migrate-packit--perms-from-orderly-web](https://github.com/mrc-ide/migrate-packit--perms-from-orderly-web/), where you should be able to run
-
-```
-./scripts/uat.sh
-```
-
-which will prompt you for your montagu username and password, give you a summary of what it will migrate and which you can press 'y' to continue with the migration.
 
 **Copy the data vis tool**
 

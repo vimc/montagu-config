@@ -13,12 +13,9 @@ The components currently described are:
 
 Historically relevant information will be found in:
 
-* [`montagu-orderly-web`](https://github.com/vimc/montagu-orderly-web); old configuration for orderly web. This will be present for a while at least
 * [`montagu`](https://github.com/vimc/montagu)
 * [`montagu-db-backup`](https://github.com/vimc/montagu-db-backup)
 * [`starport`](https://github.com/vimc/starport)
-
-and other places that we'll collect here.
 
 We are aiming to progressively streamline this process.
 
@@ -40,7 +37,7 @@ Be aware that attempting installing with `pip` is not always sufficient for it t
 You can find out what versions of things you have by running
 
 ```
-montagu-deploy --version
+montagu --version
 packit --version
 privateer --version
 ```
@@ -53,49 +50,28 @@ pip3 install --user packit_deploy-0.0.11-py3-none-any.whl
 
 Again, watch out to see if `pip` actually installs this, and be particularly careful if you have not changed the version number.
 
-## OrderlyWeb
+## Configuration
 
-The orderly-web-deploy tool is not currently updated on PyPI, so install that from source.  We will be removing it from the deployment soonish and it is not configured in this repository.
-
-# Migration of old packets
-
-We've removed the old orderly-to-packit migration, so this needs to be run manually.
-
-On production, I have run
+Each of the tools will respond to a different machine description; these are `uat`, `science` or `production`.  You should configure these tools (only needed once) by running
 
 ```
-docker pull mrcide/outpack.orderly:main
-docker run -it --rm --name outpack-migrate \
-    -v montagu_orderly_volume:/orderly:ro \
-    -v montagu_outpack_volume:/outpack \
-    mrcide/outpack.orderly:main \
-    /orderly /outpack --once
+montagu configure uat
+packit configure uat
+privateer configure uat
 ```
 
-which took about 2 hours from scratch.  This is now the source of truth, and is backed up via privateer.
-
-Continuous migrations are not currently running.
+at the root of this repository as checked out on the corresponding machine (replacing `uat` with the machine you want to work with), which will write out configuration information.
 
 # Deployment
 
-On a first deployment (after bringing down all containers), the order matters.  You need to bring up `packit` (and `OrderlyWeb` if you are using that) *before* `montagu`, otherwise the proxy will fail to start.
-
-If you get a gateway error causing packit login to fail, redeploy montagu (or have a go just restarting the proxy container). This can happen if you redeploy packit without subsequently restarting montagu.
-
-Assuming `uat` here:
-
-Start OrderlyWeb from `montagu-orderly-web/` with:
+Bring up packit and montagu with
 
 ```
-./start
+packit start --pull
+montagu start --pull
 ```
 
-```
-packit start --pull uat
-montagu start --pull uat
-```
-
-Replace `uat` with `science` or `production` on those machines.
+The order that you do this does not matter, but nothing will be accessible until montagu has started because it includes the proxy.
 
 See https://github.com/vimc/montagu-deploy for more details on the deploy tool.
 
@@ -105,16 +81,16 @@ After deploying montagu you will need to update the data vis tool by running
 ./scripts/copy-vis-tool
 ```
 
+This must be done each time montagu has been deployed because it updates files in the proxy container, but this is only necessary on `production` because nobody uses the vis tool on `science` or `uat`.
+
 # Interacting with packit
 
 Redeploy packit (e.g., after making a change); stop and start the containers using `packit-deploy`.  You probably want the `--kill` argument to swiftly but rudely bring down containers and the `--pull` argument to make sure that you get the most recent copy of containers to deploy.
 
 ```
-packit stop --kill uat
-packit start --pull uat
+packit stop --kill
+packit start --pull
 ```
-
-Be sure to get the machine name correct (`uat`, `science` or `production`).
 
 If you want to test a branch, you will first need to create a PR in [packit](https://github.com/mrc-ide/packit) so that it builds images for your branch. Then, after that image is pushed, you should return to the relevant machine (most likely you'll be doing this on `uat`) and edit the appropriate `tag:` field(s) within `uat/packit.yml`. You can do this with a local change on the machine, e.g. with `vim` or `nano` or by making a branch in `montagu-config`, depending on the complexity of the changes.
 
@@ -132,21 +108,6 @@ This command will need to be run periodically to ensure the certificate stays up
 ./scripts/install-timer.sh <path>
 ```
 
-# Interacting with orderly-web
-
-When migrating over from `orderly-web` you may need to bring down an older version of OrderlyWeb (e.g., by running `./stop` from within `montagu-orderly-web`.  However, the serialised configuration is incompatible with newer versions of `orderly-web-deploy` and `constellation`.  The safest fix is to create a virtual environment and work there:
-
-```
-cd montagu-orderly-web
-python3 -m venv old-ow
-. ./old-ow/bin/activate
-pip3 install constellation==1.2.4 orderly-web==1.0.0
-./stop
-deactivate
-```
-
-Once brought down with the old version, you can then use the globally installed version of `orderly-web`.
-
 # Backup and restore
 
 See [`backup.md`](backup.md) for details on this process.  See [`rebuild.md`](rebuild.md) for an account of rebuilding the systems in 2025.
@@ -158,8 +119,8 @@ Typically this is done on `uat` only, but occasionally it will be needed on `sci
 For the component under test, edit the appropriate file in `uat/`, e.g., `uat/packit.yml`.  Each component has a `tag` field, which can be used to target an in-development branch building on CI (you may need to have made a PR to trigger these builds).  For `packit`, be sure to edit the tag for both `api` and `app` if these are both required.  You can make these edits live on the machine in question (`vi` and `nano` are both installed), and then deploy above with
 
 ```
-packit stop uat
-packit start --pull uat
+packit stop
+packit start --pull
 ```
 
 You will need your GitHub access token for this process.  Using `stop --kill` will make things a bit faster to shut down, with potentially more risk of corrupting data, but we've not seen any evidence of a downside.
