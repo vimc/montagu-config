@@ -65,38 +65,9 @@ privateer configure uat
 
 at the root of this repository as checked out on the corresponding machine (replacing `uat` with the machine you want to work with), which will write out configuration information.
 
-## OrderlyWeb
-
-The orderly-web-deploy tool is not currently updated on PyPI, so install that from source.  We will be removing it from the deployment soonish and it is not configured in this repository.
-
-# Migration of old packets
-
-We've removed the old orderly-to-packit migration, so this needs to be run manually.
-
-On production, I have run
-
-```
-docker pull mrcide/outpack.orderly:main
-docker run -it --rm --name outpack-migrate \
-    -v montagu_orderly_volume:/orderly:ro \
-    -v montagu_outpack_volume:/outpack \
-    mrcide/outpack.orderly:main \
-    /orderly /outpack --once
-```
-
-which took about 2 hours from scratch.  This is now the source of truth, and is backed up via privateer.
-
-Continuous migrations are not currently running.
-
 # Deployment
 
-Start OrderlyWeb from `montagu-orderly-web/` with:
-
-```
-./start
-```
-
-Then bring up packit and montagu with
+Bring up packit and montagu with
 
 ```
 packit start --pull
@@ -139,21 +110,6 @@ This command will need to be run periodically to ensure the certificate stays up
 ```
 ./scripts/install-timer.sh <path>
 ```
-
-# Interacting with orderly-web
-
-When migrating over from `orderly-web` you may need to bring down an older version of OrderlyWeb (e.g., by running `./stop` from within `montagu-orderly-web`.  However, the serialised configuration is incompatible with newer versions of `orderly-web-deploy` and `constellation`.  The safest fix is to create a virtual environment and work there:
-
-```
-cd montagu-orderly-web
-python3 -m venv old-ow
-. ./old-ow/bin/activate
-pip3 install constellation==1.2.4 orderly-web==1.0.0
-./stop
-deactivate
-```
-
-Once brought down with the old version, you can then use the globally installed version of `orderly-web`.
 
 # Backup and restore
 

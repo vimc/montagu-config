@@ -40,9 +40,9 @@ On annex2 from within `montagu-config` dump the database into the backup volume
 Then on on the machine that you want to restore into, from within `montagu-config`, run:
 
 ```
-montagu stop --kill uat
+montagu stop --kill
 privateer restore barman_recover --server=annex2 --to-volume montagu_db_volume
-montagu start uat
+montagu start
 ```
 
 Note that this will bring down montagu while the restore is carried out.
@@ -53,16 +53,18 @@ By "restore", we mean to take a bunch of data from backup, originally from produ
 
 ### Orderly
 
-This one is fairly easy, as we just need to copy the data over, for both the orderly and outpack volumes:
+This one is fairly easy, as we just need to copy the data over for the outpack volume:
 
 ```
-privateer restore montagu_orderly_volume --server=annex2 --source=production2
 privateer restore montagu_outpack_volume --server=annex2 --source=production2
 ```
 
 Here, `production2` is the original source of the data, and `annex2` is the backuip server that it is stored on.
 
-This can be done fairly safely while the system is running, with the exception that OrderlyWeb does use the SQLite database in the orderly volume.  As such, until we retire `orderly1`/OrderlyWeb it is probably best to do this after taking montagu down (run `./stop` from the `montagu-orderly-web` directory).
+This can be done fairly safely while the system is running.  On science or uat you will have deleted any packets that are only present on those machines (this process just copies over the contents of production and deletes any additions) so you should resync packets:
+
+* uat: https://uat.montagu.dide.ic.ac.uk/packit/resync-packets
+* science: https://science.montagu.dide.ic.ac.uk/packit/resync-packets
 
 ### Database
 
@@ -191,7 +193,6 @@ which shows recent API access logs, or other queries to satisfy yourself that th
 To manually force a backup:
 
 ```
-privateer backup montagu_orderly_volume --server annex2
 privateer backup montagu_outpack_volume --server annex2
 ```
 
