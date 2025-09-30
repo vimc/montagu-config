@@ -259,6 +259,7 @@ packages:
   - rlang
   - rmarkdown
   - rnaturalearth
+  - rnaturalearthdata
   - robustbase
   - roxygen2
   - rpart
