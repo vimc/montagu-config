@@ -9,6 +9,7 @@ network: montagu_default
 volumes:
   outpack: montagu_outpack_volume
   packit_db: montagu_packit_db
+  packit_db_backup: montagu_packit_db_backup
   orderly_library: montagu_orderly_library
   orderly_logs: montagu_orderly_logs
 
