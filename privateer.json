@@ -34,7 +34,7 @@
         },
         {
             "name": "production2",
-            "backup": ["montagu_orderly_volume", "montagu_outpack_volume", "montagu_db_volume"],
+            "backup": ["montagu_orderly_volume", "montagu_outpack_volume", "montagu_db_volume", "montagu_packit_db_backup"],
             "schedule": {
                 "port": 8080,
                 "jobs": [
@@ -62,6 +62,9 @@
         },
         {
             "name": "montagu_db_volume"
+        },
+        {
+            "name": "montagu_packit_db_backup"
         },
         {
             "name": "barman_recover",
