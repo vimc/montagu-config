@@ -122,6 +122,7 @@ packages:
   - ggdist
   - ggforce
   - ggfun
+  - gghighlight
   - ggplot2
   - ggpubr
   - ggrepel
