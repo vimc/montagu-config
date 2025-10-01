@@ -323,7 +323,6 @@ packages:
   - utf8
   - utils
   - uuid
-  - vacsce
   - vaultr
   - vctrs
   - vimpact
@@ -353,3 +352,4 @@ github:
   - cran/Rttf2pt1
   - cran/extrafont
   - cran/ggalt
+  - vimc/vacsce
