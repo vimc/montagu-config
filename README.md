@@ -1,6 +1,6 @@
 # montagu-config
 
-Config and scripts for deploying Montagu.
+Config and scripts for deploying Montagu. 
 
 The basic idea here is that **all** configuration for the various components of montagu will end up here, separated by machine at present.  This leads to a little duplication between machines, which is not ideal, but we can revisit that later.
 
