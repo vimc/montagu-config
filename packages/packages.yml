@@ -323,6 +323,7 @@ packages:
   - utf8
   - utils
   - uuid
+  - vacsce
   - vaultr
   - vctrs
   - vimpact
