@@ -49,3 +49,37 @@ If this works, then the same basic process can be run on production, though with
 ## Montagu
 
 If the montagu database gets much smaller (e.g., if we manage to remove the demographics, coverage and burden estimate tables in future) then a dump and restore process might be better and faster than the approach below.
+
+First, create a new docker image that references a recent postgres.  You can increase multiple major versions at once.  See [this PR for example]https://github.com/vimc/montagu-system/pull/9 (or [this original one]((https://github.com/vimc/montagu-db/pull/175) before the move to the monorepo), which migrates from 10 to 17.  Get this image building and passing.
+
+
+Test out the new database on `uat`.  On that machine, bring down montagu:
+
+```
+montagu stop --kill
+```
+
+Run the upgrade using `pgautoupgrade`, for example
+
+```
+docker run --rm --name pgauto -it \
+    -v montagu_db_volume:/var/lib/postgresql/data \
+	-e PGAUTO_ONESHOT=yes \
+    -e PGUSER=vimc \
+    -e PGAUTO_REINDEX=no \
+    pgautoupgrade/pgautoupgrade:17-alpine
+```
+
+Note here that we:
+
+* set the user to avoid some weird warnings about a missing root user
+* avoid indexing, because we'll manually do this later to avoid some weird errors
+
+This takes a few minutes, but not that long because we skip building the index.
+
+```
+docker run -d -it --rm --name montagu-db-upgrade -v montagu_db_volume:/pgdata vimc/montagu-db:vimc-6447-2
+docker exec -it montagu-db-upgrade montagu-wait.sh 3600
+docker exec -it montagu-db-upgrade psql -U vimc -d montagu -c "reindex (verbose) database montagu;"
+docker stop montagu-db-upgrade
+```
