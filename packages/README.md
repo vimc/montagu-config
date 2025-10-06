@@ -2,6 +2,8 @@
 
 For the `orderly` runner we keep a long-lived volume of packages mounted at `/library` rather than baking the packages into the image; only packages required to run `orderly`, `orderly.runner` and the queue itself will be present there.   All workers share the same library.
 
+The packages are controlled via the [`packages.yml`](packages.yml) file, which we might move from this repo shortly so that science can more easily edit it.
+
 Most packages are available on CRAN, but we have a couple of special cases that are still used:
 
 * `jokergoo/ComplexHeatmap` (it is on BioConductor, and so has it's own weird set of deps too)
