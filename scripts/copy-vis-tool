@@ -27,15 +27,15 @@ docker run -i \
        -w /orderly \
        --network montagu_default \
        ghcr.io/mrc-ide/orderly.runner:main Rscript - << "EOF"
-orderly2::orderly_init(use_file_store = TRUE)
-orderly2::orderly_location_add_http("montagu", "http://montagu-outpack-server:8000")
-orderly2::orderly_location_fetch_metadata()
+orderly::orderly_init(use_file_store = TRUE)
+orderly::orderly_location_add_http("montagu", "http://montagu-outpack-server:8000")
+orderly::orderly_location_fetch_metadata()
 
 copy <- list("2020/visualisation" = "20210323-091557-54aa64f1",
              "2021/visualisation" = "20210713-133411-1133b34e")
 
 for (app in names(copy)) {
-  orderly2::orderly_copy_files(copy[[app]], "./", file.path("/dst", app),
+  orderly::orderly_copy_files(copy[[app]], "./", file.path("/dst", app),
                                allow_remote = TRUE)
 }
 EOF

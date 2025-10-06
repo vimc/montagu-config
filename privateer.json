@@ -40,7 +40,7 @@
                 "jobs": [
                     {
                         "server": "annex2",
-                        "volume": "montagu_orderly_volume",
+                        "volume": "montagu_outpack_volume",
                         "schedule": "@daily"
                     }
                 ]
