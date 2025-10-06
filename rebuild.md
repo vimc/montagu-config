@@ -1,8 +1,47 @@
-This file documents the process used to completely rebuild the `uat` system ahead of the rollout of orderly2/packit for VIMC.  Replace `uat` with `science` or `production` to do this for other systems.
+This file documents the process used to completely rebuild the `uat` system (last done in October 2025).
+
+If you are following through this process, expect it to take most of a day, some of the data transfers are quite slow.
+
+# Preparation
+
+Refresh backups from production, to ensure that we work with the most recent data.
+
+**On production2**, within `montagu-config/`, run
+
+```
+privateer backup montagu_outpack_volume --server annex2
+docker exec -it montagu-packit-db pg_dump -U packituser -Fc packit -f /pgbackup/packit
+privateer backup montagu_packit_db_backup --server annex2
+```
+
+which backs up the most recent orderly data and the packit db
+
+**On annex2**, from anywhere, run
+
+```
+docker exec -it barman-montagu barman recover --jobs 4 montagu latest /recover/
+```
+
+(expected to take ~30 minutes), then
+
+```
+docker pull vimc/montagu-db:master
+docker run -d --name barman-replay-wal \
+    -v barman_recover:/pgdata \
+    vimc/montagu-db:master \
+    /etc/montagu/postgresql.production.conf
+docker exec -it barman-replay-wal montagu-wait.sh 3600
+docker stop barman-replay-wal
+docker rm barman-replay-wal
+```
+
+which replays the wal logs for faster startup (see [`backup.md`](backup.md)).
 
 # Teardown
 
-Stop everything
+These commands are all run on `uat`, probably best to double check you're on the right machine please.  Work in the `montagu-config` directory, and have your GitHub PAT handy.
+
+First, stop everything:
 
 ```
 packit stop --kill
@@ -27,14 +66,29 @@ privateer configure uat
 Then pull the data
 
 ```
+privateer restore montagu_packit_db_backup --server=annex2
 privateer restore barman_recover --server=annex2 --to-volume montagu_db_volume
-privateer restore montagu_orderly_volume --server=annex2 --source=production2
 privateer restore montagu_outpack_volume --server=annex2 --source=production2
 ```
 
+Note that the barman recovery entry changes the destination volume.
+
 These took about an hour to copy over from scratch, which is not terrible.  Do not bring anything up while this process is running, as that could result in confused containers as the data changes underneath them.
 
+The packit db needs an extra step to restore (see [`packit-backup.md`](packit-backup.md)), but this is:
+
+```
+docker run -d --rm --name montagu-packit-db-restore -v montagu_packit_db_backup:/pgbackup:ro -v montagu_packit_db:/pgdata ghcr.io/mrc-ide/packit-db:main
+# then wait a few seconds
+docker exec -it montagu-packit-db-restore pg_restore --verbose --exit-on-error --no-owner -d packit -U packituser /pgbackup/packit
+docker stop montagu-packit-db-restore
+```
+
+This can be safely run while the other volumes are restored.
+
 # Bringing the system up
+
+This can now be done in any order (packit or montagu first).
 
 **Start Packit**; in `montagu-config/` with:
 
@@ -51,24 +105,6 @@ montagu start --pull
 ```
 
 It's worth, at this point, running `docker ps -a` and looking for exited containers (or `docker ps -a --filter status=exited`) as this usually means that something terrible happened.
-
-**Create yourself as a packit admin user**:
-
-On the first deployment, packit has no user database and we need to bootstrap this in order to receive users from OrderlyWeb.
-
-First, go to to the relevant packit instance to login:
-
-* `uat`: https://uat.montagu.dide.ic.ac.uk/
-* `science`: https://science.montagu.dide.ic.ac.uk/
-* `production`: https://montagu.vaccineimpact.org/
-
-and log in, you should see no errors.  This creates your user in the packit db using pre-auth.
-
-Promote your user to a super-user for packit:
-
-```
-./scripts/promote-packit-user u.name@imperial.ac.uk
-```
 
 **Copy the data vis tool**
 
