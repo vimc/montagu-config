@@ -1,6 +1,6 @@
 # Packages for the runner
 
-For the orderly2-based runner we keep a long-lived volume of packages mounted at `/library` rather than baking the packages into the image; only packages required to run orderly, orderly.runner and the queue itself will be present there.   All workers share the same library.
+For the `orderly` runner we keep a long-lived volume of packages mounted at `/library` rather than baking the packages into the image; only packages required to run `orderly`, `orderly.runner` and the queue itself will be present there.   All workers share the same library.
 
 Most packages are available on CRAN, but we have a couple of special cases that are still used:
 
