@@ -122,6 +122,10 @@ This command will need to be run periodically to ensure the certificate stays up
 
 See [`backup.md`](backup.md) for details on this process.  See [`rebuild.md`](rebuild.md) for an account of rebuilding the systems in 2025.
 
+# Upgrading postgres
+
+Upgrades to the major version of postgres are disruptive, and will need special work for both packit and for montagu itself.  This is described in [`postgres-db.md`](postgres-db.md).
+
 # Testing a branch of a component
 
 Typically this is done on `uat` only, but occasionally it will be needed on `science`.  Avoid testing new features on `production` as that is externally visible, and may be in use by an external partner.
