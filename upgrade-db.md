@@ -83,3 +83,19 @@ docker exec -it montagu-db-upgrade montagu-wait.sh 3600
 docker exec -it montagu-db-upgrade psql -U vimc -d montagu -c "reindex (verbose) database montagu;"
 docker stop montagu-db-upgrade
 ```
+
+This takes ages, at least an hour or two.
+
+Once this is done, edit `montagu-config/uat/montagu.yml` and change the db branch (two places within the `db:` block, one for the db and one for the migration image).
+
+You also need to pull the migration image explicitly; this will be particularly important on `production2` because the tag is unchanged but the image has changed:
+
+```
+docker pull vimc/montagu-migrate:vimc-6447-2
+```
+
+Bring montagu back up
+
+```
+montagu start --pull
+```
