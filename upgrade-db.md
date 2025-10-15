@@ -99,3 +99,40 @@ Bring montagu back up
 ```
 montagu start --pull
 ```
+
+On production, we left montagu running.  We ran
+
+```
+privateer restore --dry-run montagu_packit_db_backup --server=annex2
+```
+
+to get the db restore command, then ran
+
+```
+privateer restore barman_recover --server=annex2 --to-volume montagu_db_volume_v17
+```
+
+to restore it into a volume with the db major version as part of the name.  This takes a while as it makes a second full copy of the db.  Be sure to have lots of space here.
+
+Upgrade the database by running:
+
+```
+docker run --rm --name pgauto -it \
+    -v montagu_db_volume_v17:/var/lib/postgresql/data \
+	-e PGAUTO_ONESHOT=yes \
+    -e PGUSER=vimc \
+    -e PGAUTO_REINDEX=no \
+    pgautoupgrade/pgautoupgrade:17-alpine
+```
+
+Note here the use of the `_v17` volume and not the main container.  Once this runs, we need to rebuild the index too:
+
+
+```
+docker run -d -it --rm --name montagu-db-upgrade -v montagu_db_volume_v17:/pgdata vimc/montagu-db:vimc-6447-2
+docker exec -it montagu-db-upgrade montagu-wait.sh 3600
+docker exec -it montagu-db-upgrade psql -U vimc -d montagu -c "reindex (verbose) database montagu;"
+docker stop montagu-db-upgrade
+```
+
+Note here the use of the `_v17` volume again.
