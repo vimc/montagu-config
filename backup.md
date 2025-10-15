@@ -139,10 +139,10 @@ This prints relatively little output while it runs, and no indication of how far
 Run
 
 ```
-docker pull vimc/montagu-db:master
+docker pull ghcr.io/vimc/montagu-db:main
 docker run -d --name barman-replay-wal \
     -v barman_recover:/pgdata \
-    vimc/montagu-db:master \
+    ghcr.io/vimc/montagu-db:main \
     /etc/montagu/postgresql.production.conf
 docker exec -it barman-replay-wal montagu-wait.sh 3600
 docker stop barman-replay-wal

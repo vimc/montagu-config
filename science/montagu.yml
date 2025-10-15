@@ -34,17 +34,17 @@ volumes:
 
 api:
   name: montagu-api
-  tag: master
+  tag: main
   admin:
     name: montagu-cli
-    tag: master
+    tag: main
 db:
   name: montagu-db
-  tag: master
+  tag: main
   root_user: vimc
   migrate:
     name: montagu-migrate
-    tag: master
+    tag: main
   users:
     api:
       password: VAULT:secret/vimc/database/science/users/api:password
@@ -73,7 +73,7 @@ db:
     - role_permission
 proxy:
   name: montagu-reverse-proxy
-  tag: master
+  tag: main
   port_http: 80
   port_https: 443
   metrics:
@@ -86,13 +86,13 @@ proxy:
     dhparam: VAULT:secret/vimc/ssl/v2/science/dhparam:value
 contrib:
   name: montagu-contrib-portal
-  tag: master
+  tag: main
 admin:
   name: montagu-admin-portal
-  tag: master
+  tag: main
 static:
   name: montagu-static
-  tag: master
+  tag: main
 mq:
   repo: docker.io
   name: redis
@@ -105,7 +105,7 @@ flower:
   port: 5555
 task_queue:
   name: task-queue-worker
-  tag: master
+  tag: main
   tasks:
     diagnostic_reports:
       use_additional_recipients: false
