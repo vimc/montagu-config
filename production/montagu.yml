@@ -11,7 +11,7 @@ container_prefix: montagu
 protect_data: true
 
 ## Docker org for images
-repo: vimc
+repo: ghcr.io/vimc
 
 ## The name of the docker network that containers will be attached to.
 ## If you want to proxy Packit to the host, you will need to
