@@ -16,26 +16,11 @@ privateer backup montagu_packit_db_backup --server annex2
 
 which backs up the most recent orderly data and the packit db
 
-**On annex2**, from anywhere, run
+**On annex2**, from within `montagu-config` dump the database into the backup volume
 
 ```
-docker exec -it barman-montagu barman recover --jobs 4 montagu latest /recover/
+./scripts/annex-dump-montagu-db
 ```
-
-(expected to take ~30 minutes), then
-
-```
-docker pull vimc/montagu-db:master
-docker run -d --name barman-replay-wal \
-    -v barman_recover:/pgdata \
-    vimc/montagu-db:master \
-    /etc/montagu/postgresql.production.conf
-docker exec -it barman-replay-wal montagu-wait.sh 3600
-docker stop barman-replay-wal
-docker rm barman-replay-wal
-```
-
-which replays the wal logs for faster startup (see [`backup.md`](backup.md)).
 
 # Teardown
 
