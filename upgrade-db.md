@@ -136,3 +136,9 @@ docker stop montagu-db-upgrade
 ```
 
 Note here the use of the `_v17` volume again.
+
+Then edit the configuration to change the volume and restart montagu as usual (`montagu stop` then `montagu start --pull`).
+
+This leaves the old db volume unchanged so if something terrible happens it's easy enough to roll back.
+
+After this, there's certainly some barman upgrade to do...
