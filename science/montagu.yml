@@ -72,7 +72,7 @@ db:
     - role
     - role_permission
 proxy:
-  name: montagu-reverse-proxy
+  name: montagu-proxy
   tag: main
   port_http: 80
   port_https: 443
