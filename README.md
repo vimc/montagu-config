@@ -36,7 +36,7 @@ Per machine, you will need to login to the container registry.
 docker login ghcr.io -u vimc-robot
 ```
 
-The password is in vault at `/secret/vimc-robot/github-tokens`.
+The password is in vault at `/secret/vimc-robot/github-tokens/ghcr`.
 
 # Preparation
 
