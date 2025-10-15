@@ -23,7 +23,7 @@ hostname: montagu.vaccineimpact.org
 
 ## Names of the docker volumes to use
 volumes:
-  db: montagu_db_volume
+  db: montagu_db_volume_v17
   burden_estimates: montagu_burden_estimate_files
   emails: montagu_emails
   templates: montagu_template_volume
