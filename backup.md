@@ -128,6 +128,8 @@ which will take a while (perhaps an hour) and write out a lot of data.  This is 
 
 **Create a dump of the database** into the `barman_recover` volume (~40 minutes with 1 job, 15 minutes with 4)
 
+**WARNING**: with recent versions of barman, some extra work is required as it will not happily backup directly onto the directory that is our mount path (`/recover`, here) so we need to manually move things around.  Please see `./scripts/annex-dump-montagu-db` for the details - this prose below just outlines the important logical parts of the process.
+
 ```
 docker exec -it barman-montagu barman recover --jobs 4 montagu latest /recover/
 ```
