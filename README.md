@@ -93,6 +93,18 @@ After deploying montagu you will need to update the data vis tool by running
 
 This must be done each time montagu has been deployed because it updates files in the proxy container, but this is only necessary on `production` because nobody uses the vis tool on `science` or `uat`.
 
+For production, schedule regular backups with
+
+```
+privateer schedule --as production2 start
+```
+
+you can check on the schedule by running
+
+```
+privateer schedule --as production2 status
+```
+
 # Interacting with packit
 
 Redeploy packit (e.g., after making a change); stop and start the containers using `packit-deploy`.  You probably want the `--kill` argument to swiftly but rudely bring down containers and the `--pull` argument to make sure that you get the most recent copy of containers to deploy.
