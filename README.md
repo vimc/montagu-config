@@ -136,7 +136,7 @@ See [`backup.md`](backup.md) for details on this process.  See [`rebuild.md`](re
 
 # Upgrading postgres
 
-Upgrades to the major version of postgres are disruptive, and will need special work for both packit and for montagu itself.  This is described in [`update-db.md`](update-db.md).
+Upgrades to the major version of postgres are disruptive, and will need special work for both packit and for montagu itself.  This is described in [`upgrade-db.md`](upgrade-db.md).
 
 # Testing a branch of a component
 
