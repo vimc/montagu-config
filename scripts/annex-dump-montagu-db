@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eux
 
+docker exec -it barman-montagu wipe-recover
+
 docker exec -it barman-montagu barman recover --jobs 4 montagu latest /recover/dump
 
 # Now we need a sensible way of copying all the files from
