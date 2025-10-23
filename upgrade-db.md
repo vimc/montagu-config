@@ -6,7 +6,13 @@ Upgrading Postgres involves downtime on production.  Older versions work quite w
 
 The packit db is small enough that probably dumping a backup, upgrading the image used, and restoring into a newer version will probably work.  This is untested.
 
-First, create a new docker image that references a recent postgres.  You can increase multiple major versions at once.  See [this PR for example](https://github.com/mrc-ide/packit/pull/247), which migrates from 10 to 17.  Get this image building and passing (in this case no work was required).
+First, create a new packit-db docker image that references a recent postgres.  You can increase multiple major versions at once.  See [this PR for example](https://github.com/mrc-ide/packit/pull/247), which migrates from 10 
+to 17.  Get this image building and passing (in this case no work was required).
+
+NB When you update the packit-db docker image, this will also affect any non-Montagu packit instances when they are 
+redeployed, so you will need to remember to upgrade those too. as described below. This only applies to instances deployed
+using [packit-deploy](https://github.com/mrc-ide/packit-deploy) (docker-based), not those using 
+[packit-infra](https://github.com/reside-ic/packit-infra) (Nix-based).
 
 Make sure that backup of the production database is up-to-date by running, on production in `montagu-config/`:
 
@@ -45,6 +51,13 @@ packit start --pull
 This should start up fairly quickly, and you should be able to log in.
 
 If this works, then the same basic process can be run on production, though with the PR merged and the config left on main.  Once working, refresh the backup (as above).
+
+For science, it's probably better to go through the usual procedure to sync data from production, but swap over the postgres
+version (i.e. pull the latest packit images) while packit is down. 
+
+NB When we upgraded packit db from 10 to 17 this process worked for us. However the same process on montagu db failed to reindex properly,
+resulting in odd behaviour (some users unable to log in). Any future upgrade on packit may result in similar issues, in which 
+case it is recommended to try a reindex. See below for details of how this was done for Montagu. 
 
 ## Montagu
 
