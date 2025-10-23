@@ -1,12 +1,19 @@
 #!/bin/bash
 set -eux
 
-docker exec -it barman-montagu barman recover --jobs 4 montagu latest /recover/
+docker exec -it barman-montagu barman recover --jobs 4 montagu latest /recover/dump
 
-docker pull vimc/montagu-db:master
+# Now we need a sensible way of copying all the files from
+# /recover/dump into /recover, then deleting the /recover/dump
+# directory, working around the problem that barman now tries to
+# delete the directory that it recovers into (which it can't do here
+# because it's the mount point).
+docker exec -it barman-montagu move-recovery-dump-up-one-level
+
+docker pull ghcr.io/vimc/montagu-db:main
 docker run -d --name barman-replay-wal \
     -v barman_recover:/pgdata \
-    vimc/montagu-db:master \
+    ghcr.io/vimc/montagu-db:main \
     /etc/montagu/postgresql.production.conf
 docker exec -it barman-replay-wal montagu-wait.sh 3600
 docker stop barman-replay-wal

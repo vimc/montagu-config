@@ -11,7 +11,7 @@ container_prefix: montagu
 protect_data: true
 
 ## Docker org for images
-repo: vimc
+repo: ghcr.io/vimc
 
 ## The name of the docker network that containers will be attached to.
 ## If you want to proxy Packit to the host, you will need to
@@ -23,7 +23,7 @@ hostname: montagu.vaccineimpact.org
 
 ## Names of the docker volumes to use
 volumes:
-  db: montagu_db_volume
+  db: montagu_db_volume_v17
   burden_estimates: montagu_burden_estimate_files
   emails: montagu_emails
   templates: montagu_template_volume
@@ -37,20 +37,20 @@ volumes:
 
 api:
   name: montagu-api
-  tag: master
+  tag: main
   admin:
     name: montagu-cli
-    tag: master
+    tag: main
   email:
     password: VAULT:secret/vimc/email/password:value
     flow_url: VAULT:secret/vimc/flow/montagu-webhook:value
 db:
   name: montagu-db
-  tag: master
+  tag: main
   root_user: vimc
   migrate:
     name: montagu-migrate
-    tag: master
+    tag: main
   users:
     api:
       password: VAULT:secret/vimc/database/production/users/api:password
@@ -84,8 +84,8 @@ db:
     - role
     - role_permission
 proxy:
-  name: montagu-reverse-proxy
-  tag: master
+  name: montagu-proxy
+  tag: main
   port_http: 80
   port_https: 443
   metrics:
@@ -98,13 +98,13 @@ proxy:
       - production2.montagu.dide.ic.ac.uk
 contrib:
   name: montagu-contrib-portal
-  tag: master
+  tag: main
 admin:
   name: montagu-admin-portal
-  tag: master
+  tag: main
 static:
   name: montagu-static
-  tag: master
+  tag: main
 mq:
   repo: docker.io
   name: redis
@@ -117,7 +117,7 @@ flower:
   port: 5555
 task_queue:
   name: task-queue-worker
-  tag: master
+  tag: main
   tasks:
     diagnostic_reports:
       use_additional_recipients: false
