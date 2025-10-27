@@ -1,15 +1,15 @@
 # Backup and restore
 
-We can backup Montagu, orderly (outpack) and packit data from the production2 machine. Data is backed up to annex2. 
+We can backup Montagu DB, Orderly (outpack) and Packit DB data from the production2 machine. Data is backed up to annex2. 
 We frequently want to restore from the backup to UAT (our dev testing machine) and to Science (the machine used for 
 testing by VIMC science team, who often want a recent copy of Montagu DB and orderly reports to use away from production2). 
 We have never needed to restore back onto production2 itself, but this should be possible in the case of disaster by 
 following the same procedure for the latest available backups (see [rebuild.md](./rebuild.md) for how we would rebuild a machine from scratch).
 
 In this document we describe:
-- How the backup and restore process works for each data store in Montagu
-- How to run the backup and restore process 
-- A more detailed account of restoring Montagu DB (not using the helper script) with additional status checks and optional steps
+- [How data is backed up and restored in Montagu](#how-data-is-backed-up-and-restored-in-montagu)
+- [How to backup and restore Montagu data](#how-to-backup-and-restore-montagu-data)
+- [A more detailed account of restoring Montagu DB](#montagu-db-backup-and-restore---step-by-step) (not using the helper script) with additional status checks and optional steps
 
 ## How data is backed up and restored in Montagu
 
@@ -65,11 +65,11 @@ metadata for packets which no longer exist - packets which had run on the restor
 However if there is any Packit DB data from production2 that we do want to restore e.g. relating to users, permissions, 
 pinned packets etc, then we can do a Packit DB backup and restore as well. On production2, we do a postgres dump to 
 generate a volume we can recover from then send that to annex using privateer. On the machine being restored, we pull the 
-volume using privateer and then a restore db command to actually restore into the packit-db volume. Note that because the 
-packit db is small, we do a full db dump every time and do not use WAL.
+volume using privateer and then do a postgres restore db command to actually restore into the packit-db volume from the 
+restore volume. Note that because the packit db is small, we do a full db dump every time and do not use WAL.
 
-## Other data
-This data is not currently included in backup and retore:
+### Other data
+This data is not currently included in backup and restore:
 * the orderly logs
 * the packit redis data (not even persisted to a volume at present)
 
@@ -96,7 +96,7 @@ optionally want to take a new base backup. This is done on annex2 by running:
 barman-montagu barman backup montagu
 ```
 
-See "Montagu DB Backup and Restore - step by step" for more details. 
+See [Montagu DB Backup and Restore - step by step](#montagu-db-backup-and-restore---step-by-step) for more details. 
 
 #### Outpack volume backup
 On production2 run:
@@ -122,7 +122,7 @@ privateer backup montagu_packit_db_backup --server annex2
 Expect this to take about 2 hours. 
 
 ##### Make a restore volume of Montagu DB
-On annex2 from within `montagu-config` dump the database into the backup volume
+On annex2 from within `montagu-config` dump the database into the restore volume
 
 ```
 ./scripts/annex-dump-montagu-db
@@ -131,7 +131,7 @@ This helper script covers the steps described in "Prepare the restore volume on 
 
 
 ##### Restore Montagy DB onto Target machine
-Then on on the machine that you want to restore into, from within `montagu-config`, run:
+Then, on the machine that you want to restore into, from within `montagu-config`, run:
 
 ```
 montagu stop --kill
@@ -169,16 +169,15 @@ Essentially we want to run the restore while the Packit system is not running, a
 dump volume into an empty Packit DB container. 
 We need to make sure that each step has completed before starting the next. 
 
-1. Run `privateer restore montagu_packit_db_backup --server annex2` to pull the Packit db backup from annex2
+1. Run `privateer restore montagu_packit_db_backup --server annex2` to pull the Packit db backup volume from annex2
 2. Stop packit: `packit stop`
-3. Delete the old Packit database volume. Be sure you are on UAT/Science and not production please:`docker volume rm montagu_packit_db`
+3. Delete the old Packit database volume. **Be sure you are on UAT/Science and not production please!**:`docker volume rm montagu_packit_db`
 4. Make a new empty database volume: `docker volume create montagu_packit_db`
-5. Start a DB container with the empty volume and backup voume: `docker run -d --rm --name montagu-packit-db-restore -v montagu_packit_db_backup:/pgbackup:ro -v montagu_packit_db:/pgdata ghcr.io/mrc-ide/packit-db:main`
+5. Start a DB container with the empty volume and backup volume: `docker run -d --rm --name montagu-packit-db-restore -v montagu_packit_db_backup:/pgbackup:ro -v montagu_packit_db:/pgdata ghcr.io/mrc-ide/packit-db:main`
 6. Wait a few seconds to ensure the container starts up fully
 7. Run `pg_restore` in the container to populate the data volume: `docker exec -it montagu-packit-db-restore pg_restore --verbose --exit-on-error --no-owner -d packit -U packituser /pgbackup/packit`
 8. Stop the DB container: `docker stop montagu-packit-db-restore`
 9. Restart packit: `packit start`
-
 
 
 ## Montagu DB Backup and Restore - step by step

@@ -70,4 +70,4 @@ For `production2` you can schedule a daily backup of the orderly volume with
 privateer schedule start
 ```
 
-(NB I think that this is not currently working! Oct 2025)
+(NB Scheduled backups are not currently working! Oct 2025)

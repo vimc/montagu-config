@@ -4,6 +4,8 @@ This file documents the process used to completely rebuild the `uat` system (las
 
 If you are following through this process, expect it to take most of a day, some of the data transfers are quite slow.
 
+NB The majority of this process covers the same ground as the full back and restore process described in [backup.md](backup.md).
+
 
 # Installing Privateer
 
