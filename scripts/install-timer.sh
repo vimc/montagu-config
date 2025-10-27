@@ -1,26 +1,25 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -ne 1 ]]; then
-    echo >&2 "Usage: $0 CONFIG"
+if [[ $# -ne 0 ]]; then
+    echo >&2 "Usage: $0"
     exit 1
 fi
 
 HERE=$(realpath "$(dirname $0)")
-CONFIG="$(realpath $1)"
-
-if [[ ! -f $CONFIG/montagu.yml ]]; then
-    echo >&2 "$1 is not a valid montagu configuration path"
-    exit 1
-fi
 
 if ! MONTAGU="$(which montagu)"; then
     echo >&2 "Could not locate the montagu deployment tool"
     exit 1
 fi
 
-# these need to be exported for envsubst
-export CONFIG MONTAGU
+if [[ ! -f .montagu_identity ]]; then
+    echo >&2 "montagu is not configured, run montagu configure first"
+    exit 1
+fi
+
+# this need to be exported for envsubst
+export MONTAGU
 
 echo >&2 "Installing systemd units..."
 envsubst < $HERE/systemd/montagu-renew-certificate.service | \
