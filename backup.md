@@ -8,9 +8,8 @@ following the same procedure (see [rebuild.md](./rebuild.md) for how we would re
 
 In this document we describe:
 - How the backup and restore process works for each data store in Montagu
-- Installing privateer (the key tool we use to transfer data between machines)
-- How to quickly do a restore UAT or Science using our utility script
-- The same restore process step-by-step, with additional status checks and optional steps
+- How to run the backup and restore process 
+- A more detailed account of restoring Montagu DB (not using the helper script) with additional status checks and optional steps
 
 ## How data is backed up and restored in Montagu
 
@@ -74,30 +73,64 @@ This data is not currently included in backup and retore:
 * the orderly logs
 * the packit redis data (not even persisted to a volume at present)
 
-## Installing Privateer
+## How to backup and restore Montagu data
 
-You will need to run this on any machine that you are running commands from
+The typical task that you'll want to do is to restore UAT or Science from the latest data on Production. This means that
+for each of Montagu db, Outpack volume and Packit db you'll first need to ensure backed up production data is available 
+on annex2 and then restore that data onto the target machine. 
+
+In all cases we backup to and restore from docker volumes. If you are nervous about a particular backup failing for any 
+reason you can always take a copy of the existing backup volume on annex2 or on the target machine, either before doing
+the backup (on annex2) or before pulling the data with privateer (on the target machine).
+
+The restore process may also be carried out when rebuilding a machine from scratch for some reason. This could be UAT, 
+Science or Production. [rebuild.md](./rebuild.md) describes additional setup steps you'll need to do when rebuilding. 
+
+### Backup
+
+#### Montagu DB backup
+
+As described above, Montagu db is continuously backed up by barman streaming WAL to annex2. However you may 
+optionally want to take a new base backup. This is done on annex2 by running:
+```
+barman-montagu barman backup montagu
+```
+
+See "Montagu DB Backup and Restore - step by step" for more details. 
+
+#### Outpack volume backup
+On production2 run:
 
 ```
-pip3 install --user privateer~=2.1.0
+privateer backup montagu_outpack_volume --server annex2
 ```
 
-Once installed, you can check the version by running
+#### Packit DB backup
 
+If you need to take a backup of latest Packit DB, rather than just updating from the restored Outpack volume, then on 
+production2 run:
 ```
-privateer --version
+docker exec -it montagu-packit-db pg_dump -U packituser -Fc packit -f /pgbackup/packit
+privateer backup montagu_packit_db_backup --server annex2
 ```
 
-## The quick version - restoring Science/UAT to reflect Production
 
-This is the most common activity.  Expect it to take about 2 hours.
+### Restore
 
+#### Montagu DB restore
+
+Expect this to take about 2 hours. 
+
+##### Make a restore volume of Montagu DB
 On annex2 from within `montagu-config` dump the database into the backup volume
 
 ```
 ./scripts/annex-dump-montagu-db
 ```
+This helper script covers the steps described in "Prepare the restore volume on annex2".
 
+
+##### Restore Montagy DB onto Target machine
 Then on on the machine that you want to restore into, from within `montagu-config`, run:
 
 ```
@@ -106,32 +139,52 @@ privateer restore barman_recover --server=annex2 --to-volume montagu_db_volume
 montagu start
 ```
 
-Note that this will bring down montagu while the restore is carried out.
+This will bring down montagu while the restore is carried out.
 
 
+#### Outpack volume restore
 
-## Restore
-
-By "restore", we mean to take a bunch of data from backup, originally from production(2), and creating a functional montagu server, probably a staging machine.  This is done both when rescuing a machine, or more typically, when making sure that current production data is available for science to use.  This is most typically done to restore onto `uat` or `science`.
-
-### Orderly
-
-This one is fairly easy, as we just need to copy the data over for the outpack volume:
+On the target machine, pull the data over for the outpack volume:
 
 ```
 privateer restore montagu_outpack_volume --server=annex2 --source=production2
 ```
 
-Here, `production2` is the original source of the data, and `annex2` is the backuip server that it is stored on.
+Here, `production2` is the original source of the data, and `annex2` is the backup server that it is stored on.
 
-This can be done fairly safely while the system is running.  On science or uat you will have deleted any packets that are only present on those machines (this process just copies over the contents of production and deletes any additions) so you should resync packets:
-
+This can be done fairly safely while the system is running, but you may want to stop packit first.  On Science or UAT 
+you will have deleted any packets that are only present on those machines (this process just copies over the contents 
+of production and deletes any additions) so you should resync packets:
 * uat: https://uat.montagu.dide.ic.ac.uk/packit/resync-packets
 * science: https://science.montagu.dide.ic.ac.uk/packit/resync-packets
 
-### Database
+You don't need to resync packets if you're going to restore the full Packit DB, as this will include all the latest packet
+metadata. 
 
-Generally, this will be pulling the `production2` database onto `uat` or `science`, and this is quite involved as we've never really got the hang of barman well.  At present, there are a few steps.
+
+#### Packit DB restore
+If doing a full Packit DB restore, there are a few steps to run on the target machine. The restoration step is quite 
+awkward, but we'll add some helpers into packit-db to do this in one shot soon (there are some similar scripts for Montagu DB). 
+Essentially we want to run the restore while the Packit system is not running, and we need to restore from the backup 
+dump volume into an empty Packit DB container. 
+We need to make sure that each step has completed before starting the next. 
+
+1. Run `privateer restore montagu_packit_db_backup --server annex2` to pull the Packit db backup from annex2
+2. Stop packit: `packit stop`
+3. Delete the old Packit database volume. Be sure you are on UAT/Science and not production please:`docker volume rm montagu_packit_db`
+4. Make a new empty database volume: `docker volume create montagu_packit_db`
+5. Start a DB container with the empty volume and backup voume: `docker run -d --rm --name montagu-packit-db-restore -v montagu_packit_db_backup:/pgbackup:ro -v montagu_packit_db:/pgdata ghcr.io/mrc-ide/packit-db:main`
+6. Wait a few seconds to ensure the container starts up fully
+7. Run `pg_restore` in the container to populate the data volume: `docker exec -it montagu-packit-db-restore pg_restore --verbose --exit-on-error --no-owner -d packit -U packituser /pgbackup/packit`
+8. Stop the DB container: `docker stop montagu-packit-db-restore`
+9. Restart packit: `packit start`
+
+
+
+## Montagu DB Backup and Restore - step by step
+
+Generally, this will be pulling the `production2` database onto `uat` or `science`, and this is quite involved as we've never really got the hang of barman well.  
+At present, there are a few steps.
 
 ### Prepare the restore volume on annex2
 
@@ -191,7 +244,9 @@ which will take a while (perhaps an hour) and write out a lot of data.  This is 
 
 **Create a dump of the database** into the `barman_recover` volume (~40 minutes with 1 job, 15 minutes with 4)
 
-**WARNING**: with recent versions of barman, some extra work is required as it will not happily backup directly onto the directory that is our mount path (`/recover`, here) so we need to manually move things around.  Please see `./scripts/annex-dump-montagu-db` for the details - this prose below just outlines the important logical parts of the process.
+**WARNING**: with recent versions of barman, some extra work is required as it will not happily backup directly onto the 
+directory that is our mount path (`/recover`, here) so we need to manually move things around.  
+Please see `./scripts/annex-dump-montagu-db` for the details - this prose below just outlines the important logical parts of the process.
 
 ```
 docker exec -it barman-montagu barman recover --jobs 4 montagu latest /recover/
@@ -253,15 +308,9 @@ docker exec -it montagu-db psql -U vimc -d montagu -c \
 
 which shows recent API access logs, or other queries to satisfy yourself that the data has been restored as you might expect.
 
-## Backup
 
-To manually force a backup:
 
-```
-privateer backup montagu_outpack_volume --server annex2
-```
 
-This is only meaningful for the orderly volume, because the db volume is handled by `barman`.  Because this is incremental, it will usually be fairly fast.
 
 ## Initial setup
 

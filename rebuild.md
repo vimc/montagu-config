@@ -2,6 +2,21 @@ This file documents the process used to completely rebuild the `uat` system (las
 
 If you are following through this process, expect it to take most of a day, some of the data transfers are quite slow.
 
+
+# Installing Privateer
+
+You will need privateer to be installed on any machine that you are running commands from
+
+```
+pip3 install --user privateer~=2.1.0
+```
+
+Once installed, you can check the version by running
+
+```
+privateer --version
+```
+
 # Preparation
 
 Refresh backups from production, to ensure that we work with the most recent data.
