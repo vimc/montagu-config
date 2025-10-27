@@ -1,3 +1,5 @@
+# Rebuild UAT or Science machine
+
 This file documents the process used to completely rebuild the `uat` system (last done in October 2025).
 
 If you are following through this process, expect it to take most of a day, some of the data transfers are quite slow.

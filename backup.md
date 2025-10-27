@@ -1,10 +1,10 @@
 # Backup and restore
 
-We can backup Montagu, orderly (outpack) and packit data from the production machine. Data is backed up to annex2. 
+We can backup Montagu, orderly (outpack) and packit data from the production2 machine. Data is backed up to annex2. 
 We frequently want to restore from the backup to UAT (our dev testing machine) and to Science (the machine used for 
-testing by VIMC science team, who often want a recent copy of Montagu DB and orderly reports to use away from production). 
-We have never needed to restore back onto production itself, but this should be possible in the case of disaster by 
-following the same procedure (see [rebuild.md](./rebuild.md) for how we would rebuild a machine from scratch).
+testing by VIMC science team, who often want a recent copy of Montagu DB and orderly reports to use away from production2). 
+We have never needed to restore back onto production2 itself, but this should be possible in the case of disaster by 
+following the same procedure for the latest available backups (see [rebuild.md](./rebuild.md) for how we would rebuild a machine from scratch).
 
 In this document we describe:
 - How the backup and restore process works for each data store in Montagu
@@ -13,17 +13,17 @@ In this document we describe:
 
 ## How data is backed up and restored in Montagu
 
-In general, we can safely take backups (of production) while the system is running, but when we restore (to UAT or Science) 
+In general, we can safely take backups (of production2) while the system is running, but when we restore (to UAT or Science) 
 we should do so with all containers stopped so that we do not overwrite any new local changes with the restore, and to 
 avoid any data inconsistencies.
 
-We keep our backups on the annex2 machine so all backups are done from production to annex2 and all restores are done from
+We keep our backups on the annex2 machine so all backups are done from production2 to annex2 and all restores are done from
 annex2 to the machine being restored
 
 ### Montagu DB
 
 This is the only part of the system which is backed up automatically. Write-ahead logs (WAL) are automatically 
-streamed from the production machine to annex2 using **barman** (running on annex2). The WAL are relative to a base backup. 
+streamed from production2 to annex2 using **barman** (running on annex2). The WAL are relative to a base backup. 
 Read more about this approach to Postgres backups [here](https://www.postgresql.org/docs/current/continuous-archiving.html).
 
 Ideally we would prefer not to use WAL and the additional complexity it requires, but we need to do so because Montagu 
@@ -49,8 +49,8 @@ montagu machines. Then all we need to do is restart montagu.
 
 ### Outpack volume
 
-The outpack (orderly) volume backup and restore process is manual and handled entirely by privateer. On the production 
-machine we run a privateer command to backup the volume to annex, and on the machine we want to restore to we run another 
+The outpack (orderly) volume backup and restore process is manual and handled entirely by privateer. On production2 
+machine we run a privateer command to backup the volume to annex2, and on the machine we want to restore to we run another 
 privateer command to pull the data down from annex.
 
 ### Packit DB
@@ -60,10 +60,10 @@ Again, backing up Packit DB is a manual step.
 When we only want to update orderly packets on the restore machine, we actually do not need to take any further steps to 
 restore Packit DB, as all the new packet data will be in the restored outpack volume. Outpack server and Packit API will 
 spot any new packets and update Packit DB with those. We can run the Resync job in Packit admin page to clean out any 
-metadata for packets which no longer exist - packets which had run on the restore machine and did not exist on production.
+metadata for packets which no longer exist - packets which had run on the restore machine and did not exist on production2.
 
-However if there is any Packit DB data from production that we do want to restore e.g. relating to users, permissions, 
-pinned packets etc, then we can do a Packit DB backup and restore as well. On production, we do a postgres dump to 
+However if there is any Packit DB data from production2 that we do want to restore e.g. relating to users, permissions, 
+pinned packets etc, then we can do a Packit DB backup and restore as well. On production2, we do a postgres dump to 
 generate a volume we can recover from then send that to annex using privateer. On the machine being restored, we pull the 
 volume using privateer and then a restore db command to actually restore into the packit-db volume. Note that because the 
 packit db is small, we do a full db dump every time and do not use WAL.
@@ -76,7 +76,7 @@ This data is not currently included in backup and retore:
 ## How to backup and restore Montagu data
 
 The typical task that you'll want to do is to restore UAT or Science from the latest data on Production. This means that
-for each of Montagu db, Outpack volume and Packit db you'll first need to ensure backed up production data is available 
+for each of Montagu db, Outpack volume and Packit db you'll first need to ensure backed up production2 data is available 
 on annex2 and then restore that data onto the target machine. 
 
 In all cases we backup to and restore from docker volumes. If you are nervous about a particular backup failing for any 
@@ -188,9 +188,12 @@ At present, there are a few steps.
 
 ### Prepare the restore volume on annex2
 
-First, we need to update the target that we are going to restore *from*.  Barman is set up to do all sorts of fancy point-in-time recovery workflows but we've never managed to get set up well with this, so the approach that we take is to dump out the data into a volume and then replicate that onto the appropriate host.
+First, we need to update the target that we are going to restore *from*.  Barman is set up to do all sorts of fancy point-in-time recovery 
+workflows but we've never managed to get set up well with this, so the approach that we take is to dump out the data into a volume and then replicate that onto the appropriate host.
 
-When you dump out the data, it will save (a) the "base backup" and (b) the "write ahead logs" from the time of the base backup through to the present.  When the database starts up it will replay the logs onto the database to advance the state up to the current point in time.  This means that if the base backup is very old, it may be faster overall to force a new backup.  We should be generating base backups every month.
+When you dump out the data, it will save (a) the base backup and (b) the write ahead logs from the time of the base backup through to the present.  
+When the database starts up it will replay the logs onto the database to advance the state up to the current point in time.  
+This means that if the base backup is very old, it may be faster overall to force a new backup.  We should be generating base backups every month.
 
 Begin by `ssh`-ing onto `annex2`:
 
@@ -307,78 +310,3 @@ docker exec -it montagu-db psql -U vimc -d montagu -c \
 ```
 
 which shows recent API access logs, or other queries to satisfy yourself that the data has been restored as you might expect.
-
-
-
-
-
-## Initial setup
-
-**This section should not be done routinely**, but documents what was done, and what could be done to start again with fresh keys, or on fresh machines.
-
-### Generate keys
-
-First generate keys.  This can be done on any machine, with this repo checked out, at the root directory
-
-```
-privateer keygen --all
-```
-
-You will be able to see keys in the vault:
-
-```
-$ vault list /secret/vimc/privateer
-Keys
-----
-annex
-annex2
-keys/
-production
-production2
-science
-testing/
-uat
-```
-
-### Configure hosts
-
-Configure the servers (`annex` and `annex2`) first, then the clients.
-
-### annex2
-
-This is the new machine that holds our backups.
-
-```
-privateer configure annex2
-privateer server start
-```
-
-This pulls the appropriate keys and starts the ssh server that will recieve backups from the clients.
-
-### annex1
-
-This is the old machine that used to hold backups.  It is quite slow, and the disks are very slow.
-
-```
-privateer configure annex
-privateer server start
-```
-
-This pulls the appropriate keys and starts the ssh server that will recieve backups from the clients.
-
-### Client machines
-
-For all of `production2`, `science` and `uat` the basic setup is
-
-```
-privateer configure production2 # or other name
-privateer check --connection
-```
-
-which checks that everything looks ok
-
-For `production2` you can schedule a daily backup of the orderly volume with
-
-```
-privateer schedule start
-```
