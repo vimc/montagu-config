@@ -1,19 +1,80 @@
 # Backup and restore
 
-There are two bits of data that we spend effort backing up:
+We can backup Montagu, orderly (outpack) and packit data from the production machine. Data is backed up to annex2. 
+We frequently want to restore from the backup to UAT (our dev testing machine) and to Science (the machine used for 
+testing by VIMC science team, who often want a recent copy of Montagu DB and orderly reports to use away from production). 
+We have never needed to restore back onto production itself, but this should be possible in the case of disaster by 
+following the same procedure (see [rebuild.md](./rebuild.md) for how we would rebuild a machine from scratch).
 
-* the montagu db
-* the orderly archive
+In this document we describe:
+- How the backup and restore process works for each data store in Montagu
+- Installing privateer (the key tool we use to transfer data between machines)
+- How to quickly do a restore UAT or Science using our utility script
+- The same restore process step-by-step, with additional status checks and optional steps
 
-There are other bits of persistant data that we might want to expand this approach to, but these are currently less important:
+## How data is backed up and restored in Montagu
 
-* the packit db (this will become important eventually)
+In general, we can safely take backups (of production) while the system is running, but when we restore (to UAT or Science) 
+we should do so with all containers stopped so that we do not overwrite any new local changes with the restore, and to 
+avoid any data inconsistencies.
+
+We keep our backups on the annex2 machine so all backups are done from production to annex2 and all restores are done from
+annex2 to the machine being restored
+
+### Montagu DB
+
+This is the only part of the system which is backed up automatically. Write-ahead logs (WAL) are automatically 
+streamed from the production machine to annex2 using **barman** (running on annex2). The WAL are relative to a base backup. 
+Read more about this approach to Postgres backups [here](https://www.postgresql.org/docs/current/continuous-archiving.html).
+
+Ideally we would prefer not to use WAL and the additional complexity it requires, but we need to do so because Montagu 
+DB is too big to take full backups whenever we want to restore. Once we have reduced the size of Montagu DB (when burden 
+estimates have been moved out to orderly/packit and historic estimates archived into a separate db) we may be able to retire 
+this approach.
+
+[Barman](https://pgbarman.org/) is a third party tool, for which we have written a montagu-specific wrapper, `barman-montagu`, 
+implemented in the [montagu-db-backup](https://github.com/vimc/montagu-db-backup) repo. See this repo for further documentation, 
+but bear it mind that it is rather out of date. For example...
+
+New base backups are currently manually triggered. There is an intended yacron schedule, described and built into montagu-db-backup - 
+however this was not reliable and is not currently running. It is worth making a new base backup occasionally as it means 
+that the restore will be quicker as there will be less WAL to replay.
+
+To restore the Montagu DB from its current state we run `./scripts/annex-dump-montagu` on annex2. This does not create a 
+SQL dump, but rather prepares a restorable recover volume from the current base backup and WAL.
+
+We then use **privateer** to pull this volume across from annex2 to the machine we're restoring to. 
+[Privateer](https://github.com/reside-ic/privateer) is a tool we developed to sync docker volumes between machines. 
+See [privateer.json](./privateer.json) in this repo for the configuration privateer uses to send restore data between 
+montagu machines. Then all we need to do is restart montagu.
+
+### Outpack volume
+
+The outpack (orderly) volume backup and restore process is manual and handled entirely by privateer. On the production 
+machine we run a privateer command to backup the volume to annex, and on the machine we want to restore to we run another 
+privateer command to pull the data down from annex.
+
+### Packit DB
+
+Again, backing up Packit DB is a manual step. 
+
+When we only want to update orderly packets on the restore machine, we actually do not need to take any further steps to 
+restore Packit DB, as all the new packet data will be in the restored outpack volume. Outpack server and Packit API will 
+spot any new packets and update Packit DB with those. We can run the Resync job in Packit admin page to clean out any 
+metadata for packets which no longer exist - packets which had run on the restore machine and did not exist on production.
+
+However if there is any Packit DB data from production that we do want to restore e.g. relating to users, permissions, 
+pinned packets etc, then we can do a Packit DB backup and restore as well. On production, we do a postgres dump to 
+generate a volume we can recover from then send that to annex using privateer. On the machine being restored, we pull the 
+volume using privateer and then a restore db command to actually restore into the packit-db volume. Note that because the 
+packit db is small, we do a full db dump every time and do not use WAL.
+
+## Other data
+This data is not currently included in backup and retore:
 * the orderly logs
 * the packit redis data (not even persisted to a volume at present)
 
-There's a lot of historical cruft and faffage through here, much of which is related to the postgres database.  Once we start our journey of deprecating that, things will become much easier, and the backup/restore path for orderly will be the main concern.
-
-## Installation
+## Installing Privateer
 
 You will need to run this on any machine that you are running commands from
 
@@ -27,7 +88,7 @@ Once installed, you can check the version by running
 privateer --version
 ```
 
-## The quick version - restoring science/uat to reflect production
+## The quick version - restoring Science/UAT to reflect Production
 
 This is the most common activity.  Expect it to take about 2 hours.
 
@@ -46,6 +107,8 @@ montagu start
 ```
 
 Note that this will bring down montagu while the restore is carried out.
+
+
 
 ## Restore
 
