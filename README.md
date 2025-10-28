@@ -132,7 +132,7 @@ This command will need to be run periodically to ensure the certificate stays up
 
 # Backup and restore
 
-See [`backup.md`](backup.md) for details on this process.  See [`rebuild.md`](rebuild.md) for an account of rebuilding the systems in 2025.
+See [`backup.md`](backup.md) for details on this process.  See [`rebuild.md`](rebuild.md) for an account of rebuilding a non-production machine from production data in 2025.
 
 # Upgrading postgres
 
@@ -150,3 +150,7 @@ packit start --pull
 ```
 
 You will need your GitHub access token for this process.  Using `stop --kill` will make things a bit faster to shut down, with potentially more risk of corrupting data, but we've not seen any evidence of a downside.
+
+# Bootstrapping config
+
+See [`rebuild-system.md`](rebuild-system.md) for some notes on initial setup required when creating the current system of Montagu machines. 
