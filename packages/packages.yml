@@ -76,6 +76,7 @@ packages:
   - curl
   - data.table
   - datasets
+  - diffdf
   - dbplyr
   - deldir
   - desc
