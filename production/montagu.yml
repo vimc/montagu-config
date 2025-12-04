@@ -91,14 +91,14 @@ proxy:
     name: nginx-prometheus-exporter
     tag: 1.3.0
 acme_buddy:
+  image:
+    repo: ghcr.io/reside-ic
+    name: acme-buddy
+    tag: main
   email: reside@imperial.ac.uk
-  additional_domains:
-    - production2.dide.ic.ac.uk
-  repo: ghcr.io/reside-ic
-  name: acme-buddy
-  tag: main
-  hdb_username: VAULT:secret/certbot-hdb/credentials:username
-  hdb_password: VAULT:secret/certbot-hdb/credentials:password
+  dns_provider: cloudflare
+  env:
+    CF_DNS_API_TOKEN: VAULT:secret/vimc/ssl/v2/cloudflare:CFG_DNS_API_TOKEN
   port: 2112
 contrib:
   name: montagu-contrib-portal

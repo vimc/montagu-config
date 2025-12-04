@@ -82,12 +82,15 @@ proxy:
     name: nginx-prometheus-exporter
     tag: 0.10.0
 acme_buddy:
+  image:
+    repo: ghcr.io/reside-ic
+    name: acme-buddy
+    tag: main
+  dns_provider: hdb
   email: reside@imperial.ac.uk
-  repo: ghcr.io/reside-ic
-  name: acme-buddy
-  tag: main
-  hdb_username: VAULT:secret/certbot-hdb/credentials:username
-  hdb_password: VAULT:secret/certbot-hdb/credentials:password
+  env:
+    HDB_ACME_USERNAME: VAULT:secret/certbot-hdb/credentials:username
+    HDB_ACME_PASSWORD: VAULT:secret/certbot-hdb/credentials:password
   port: 2112
 contrib:
   name: montagu-contrib-portal
