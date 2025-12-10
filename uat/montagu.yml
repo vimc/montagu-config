@@ -31,6 +31,7 @@ volumes:
   static: montagu_static_volume
   static_logs: montagu_static_logs
   mq: montagu_mq
+  montagu-tls: montagu-tls
 
 api:
   name: montagu-api
@@ -81,10 +82,17 @@ proxy:
     repo: nginx
     name: nginx-prometheus-exporter
     tag: 0.10.0
-  ssl:
-    key: VAULT:secret/vimc/ssl/v2/uat/key:value
-    certificate: VAULT:secret/vimc/ssl/v2/uat/cert:value
-    dhparam: VAULT:secret/vimc/ssl/v2/uat/dhparam:value
+acme_buddy:
+  image:
+    repo: ghcr.io/reside-ic
+    name: acme-buddy
+    tag: main
+  dns_provider: hdb
+  email: reside@imperial.ac.uk
+  env:
+    HDB_ACME_USERNAME: VAULT:secret/certbot-hdb/credentials:username
+    HDB_ACME_PASSWORD: VAULT:secret/certbot-hdb/credentials:password
+  port: 2112
 contrib:
   name: montagu-contrib-portal
   tag: main

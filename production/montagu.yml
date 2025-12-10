@@ -31,9 +31,7 @@ volumes:
   static: montagu_static_volume
   static_logs: montagu_static_logs
   mq: montagu_mq
-  acme-challenge: montagu_acme_challenge
-  certificates: montagu_certificates
-  certbot: montagu_certbot
+  montagu-tls: montagu-tls
 
 api:
   name: montagu-api
@@ -92,10 +90,16 @@ proxy:
     repo: nginx
     name: nginx-prometheus-exporter
     tag: 1.3.0
-  acme:
-    email: reside@imperial.ac.uk
-    additional_domains:
-      - production2.montagu.dide.ic.ac.uk
+acme_buddy:
+  image:
+    repo: ghcr.io/reside-ic
+    name: acme-buddy
+    tag: main
+  email: reside@imperial.ac.uk
+  dns_provider: cloudflare
+  env:
+    CF_DNS_API_TOKEN: VAULT:secret/vimc/ssl/v2/cloudflare:CFG_DNS_API_TOKEN
+  port: 2112
 contrib:
   name: montagu-contrib-portal
   tag: main
