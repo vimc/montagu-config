@@ -44,7 +44,7 @@ packit:
   runner:
     git:
       url: git@github.com:vimc/montagu-reports.git
-      ssh: VAULT:secret/vimc/reports/deploy:private
+      ssh-key: VAULT:secret/vimc/reports/deploy:private
 
 brand:
   # Paths are interpreted relative to this configuration file, so
