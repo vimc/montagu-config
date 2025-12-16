@@ -98,7 +98,7 @@ acme_buddy:
   email: reside@imperial.ac.uk
   dns_provider: cloudflare
   env:
-    CF_DNS_API_TOKEN: VAULT:secret/vimc/ssl/v2/cloudflare:CFG_DNS_API_TOKEN
+    CLOUDFLARE_DNS_API_TOKEN: VAULT:secret/vimc/ssl/v2/cloudflare:CFG_DNS_API_TOKEN
   port: 2112
 contrib:
   name: montagu-contrib-portal
