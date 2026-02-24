@@ -134,6 +134,7 @@ packages:
   - ggthemes
   - gh
   - gitcreds
+  - glmnet
   - glue
   - googledrive
   - googlesheets4
