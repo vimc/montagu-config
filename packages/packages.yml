@@ -117,7 +117,7 @@ packages:
   - getPass
   - gfonts
   # - ggalt - currently Archived on CRAN
-  - ggbump
+  # - ggbump - currently Archived on CRAN
   - ggdist
   - ggforce
   - ggfun
@@ -350,5 +350,6 @@ github:
   - adletaw/captioner
   - nfultz/stackoverflow
   - cran/ggalt
+  - davidsjoberg/ggbump
   - vimc/vacsce
   - whocov/whomapper
