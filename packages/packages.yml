@@ -31,8 +31,8 @@ packages:
   - V8
   - XML
   - abind
-  - askpass
   - arrow
+  - askpass
   - backports
   - base
   - base64enc
