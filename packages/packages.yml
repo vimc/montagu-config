@@ -32,6 +32,7 @@ packages:
   - XML
   - abind
   - askpass
+  - arrow
   - backports
   - base
   - base64enc
