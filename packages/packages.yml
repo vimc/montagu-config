@@ -241,6 +241,7 @@ packages:
   - purrr
   - quadprog
   - quantreg
+  - quarto
   - ragg
   - rapidjsonr
   - rappdirs
