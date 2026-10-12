@@ -52,6 +52,7 @@ packages:
   - car
   - carData
   - cellranger
+  - checkmate
   - circlize
   - class
   - classInt
