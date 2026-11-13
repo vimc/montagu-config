@@ -134,6 +134,42 @@ This command will need to be run periodically to ensure the certificate stays up
 
 See [`backup.md`](backup.md) for details on this process.  See [`rebuild.md`](rebuild.md) for an account of rebuilding the systems in 2025.
 
+# Updating Science with packets from Production
+
+Periodically the VIMC science team will ask us to update the science packit server with the latest packets from production, so that they can use the science environment as a sandbox or otherwise run dependent reports which aren't currently appropriate to run on production. 
+
+This update uses [privateer](https://github.com/reside-ic/privateer/), our tool which copies docker volumes between servers using rsync. We do not directly copy production data to science, but instead backup from production to annex2, and from annex2 to science. There is a scheduler running on production which regularly backs up production packets to annex2.
+
+It is good practice to first update uat, particularly since in the past the scheduler has failed, and the update from annex2 has provided very old packets only. 
+
+So the whole process should be:
+
+1. ssh into uat: `ssh vagrant@uat.montagu.dide.ic.ac.uk`
+2. `cd montagu-config`
+3. Restore packets with privateer: `privateer restore montagu_outpack_volume --server=annex2 --source=production2`
+4. go to [admin resync page in uat packit](https://uat.montagu.dide.ic.ac.uk/packit/resync-packets) and synchronise packets (this removes any old uat packets which were not on production from the uat database, as well as ensuring the new ones are added)
+5. check the [packet list](https://uat.montagu.dide.ic.ac.uk/packit/) - are the latest packets on uat now the same as the latest packets on [production](https://montagu.vaccineimpact.org/packit/)?
+
+If not, you will need to do a manual back up from production. This could take a while.
+
+First:
+`ssh vimc@production2.montagu.dide.ic.ac.uk -p 10022`
+then 
+```
+cd montagu-config
+privateer backup montagu_outpack_volume --server annex2
+```
+
+Then repeat steps 1-5, and check it worked this time.
+
+6. ssh into science: `ssh vagrant@science.montagu.dide.ic.ac.uk`
+7. `cd montagu-config`
+8. Restore packets: `privateer restore montagu_outpack_volume --server=annex2 --source=production2`
+9. sync packets at: [https://science.montagu.dide.ic.ac.uk/packit/resync-packets](https://science.montagu.dide.ic.ac.uk/packit/resync-packets)
+10. Check [packet list](https://science.montagu.dide.ic.ac.uk/packit/) matches production
+11. Let the science team know the update has been done :)
+
+
 # Upgrading postgres
 
 Upgrades to the major version of postgres are disruptive, and will need special work for both packit and for montagu itself.  This is described in [`upgrade-db.md`](upgrade-db.md).
